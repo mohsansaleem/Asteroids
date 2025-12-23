@@ -1,0 +1,3 @@
+﻿namespace PG.Asteroids.Installers
+{
+}

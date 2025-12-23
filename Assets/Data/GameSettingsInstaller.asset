@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 902cba7ab19b4e19a7c5fe617d3e9881, type: 3}
+  m_Name: GameSettingsInstaller
+  m_EditorClassIdentifier: 
+  MetaData:
+    ShipData:
+      ShipShieldDuration: 3
+      AutoFireDelay: 0.5
+      ShipMaxMovementSpeed: 5
+      ShipMovementAcceleration: 5
+      ShipDeacceleration: 1
+      ShipRotationSpeed: 120
+      SpeedForMaxEmisssion: 30
+      MaxEmission: 500
+    BulletSettings:
+      Laser: {fileID: 8300000, guid: 34c638d8d99ccfd44a261f13505ab317, type: 3}
+      LaserVolume: 1
+      BulletLifetime: 2.2
+      BulletSpeed: 9
+      MaxShootInterval: 0.5
+      BulletOffsetDistance: 0.1
+    AsteroidsData:
+      StartingSpawns: 7
+      MaxSpawns: 12
+      AsteroidLevels:
+      - MinSpeed: 6
+        MaxSpeed: 8
+        MinScale: 0.5
+        MaxScale: 1
+        MinMass: 3
+        MaxMass: 5
+        HitPoints: 1
+      - MinSpeed: 4
+        MaxSpeed: 6
+        MinScale: 1
+        MaxScale: 1.5
+        MinMass: 5
+        MaxMass: 7
+        HitPoints: 2
+    LevelData:
+      Lives: 0
+    ExplosionTimeout: 1
+    Lives: 3
