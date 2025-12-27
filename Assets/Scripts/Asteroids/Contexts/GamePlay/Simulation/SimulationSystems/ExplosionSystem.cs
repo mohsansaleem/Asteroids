@@ -38,7 +38,7 @@ namespace PG.Asteroids.Contexts.GamePlay
 
         private void CreateExplosion(Vector3 position)
         {
-            Explosion explosion = _explosionFactory.Create(_staticDataModel.MetaData.ExplosionTimeout, position);
+            Explosion explosion = _explosionFactory.Create(_staticDataModel.MetaData.ExplosionSettings.ExplosionTimeout, position);
             _simulationModel.SimulationEntitiesQueue.Add(explosion);
         }
         

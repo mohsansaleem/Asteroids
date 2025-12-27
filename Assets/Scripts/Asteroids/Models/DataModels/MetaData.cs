@@ -11,13 +11,16 @@ namespace PG.Asteroids.Models.DataModels
         public ShipData ShipData;
         public BulletSettings BulletSettings;
         public AsteroidsData AsteroidsData;
-        public int ExplosionTimeout;
+        public ExplosionSettings ExplosionSettings;
         public int Lives;
     }
     
     [Serializable]
     public class ShipData
     {
+        public AudioClip DeathSound;
+        public float DeathVolume = 1.0f;
+        
         public float ShipShieldDuration;
         public float AutoFireDelay;
         public float ShipMaxMovementSpeed;
@@ -59,5 +62,14 @@ namespace PG.Asteroids.Models.DataModels
         public float BulletSpeed;
         public float MaxShootInterval;
         public float BulletOffsetDistance;
+    }
+    
+    [Serializable]
+    public class ExplosionSettings
+    {
+        public AudioClip Explosion;
+        public float ExplosionVolume = 1.0f;
+
+        public int ExplosionTimeout;
     }
 }

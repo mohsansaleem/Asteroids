@@ -1,7 +1,11 @@
 using PG.Asteroids.Contexts.GamePlay;
+using PG.Asteroids.Models;
+using PG.Asteroids.Models.DataModels;
 using PG.Asteroids.Models.MediatorModels;
 using UnityEngine;
 using Zenject;
+using Zenject.Asteroids;
+using Zenject.SpaceFighter;
 
 #pragma warning disable 649
 
@@ -14,6 +18,8 @@ namespace PG.Asteroids.Contexts.GamePlay
         
         [Inject] private SignalBus _signalBus;
         [Inject] private SimulationModel _simulationModel;
+        [Inject] private StaticDataModel _staticDataModel;
+        [Inject] private AudioPlayer _audioPlayer;
         
         private float _startTime;
         private float _lifeTime;
@@ -45,6 +51,9 @@ namespace PG.Asteroids.Contexts.GamePlay
             _particleSystem.Clear();
             _particleSystem.Play();
 
+            ExplosionSettings explosionSettings = _staticDataModel.MetaData.ExplosionSettings;
+            _audioPlayer.Play(explosionSettings.Explosion, explosionSettings.ExplosionVolume);
+            
             _lifeTime = lifeTime;
             _startTime = Time.realtimeSinceStartup;
             _pool = pool;

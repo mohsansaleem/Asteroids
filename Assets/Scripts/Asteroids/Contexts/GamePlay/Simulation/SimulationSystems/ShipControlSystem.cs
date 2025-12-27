@@ -30,6 +30,9 @@ namespace PG.Asteroids.Contexts.GamePlay
 
         private void OnShipCrashed(PlayerCrashedSignal signal)
         {
+            ShipData shipData = _staticDataModel.MetaData.ShipData;
+            _audioPlayer.Play(shipData.DeathSound, shipData.DeathVolume);
+            
             _gamePlayModel.Lives.Value--;
             if (_gamePlayModel.Lives.Value > 0)
             {
@@ -67,7 +70,6 @@ namespace PG.Asteroids.Contexts.GamePlay
         void Fire()
         {
             BulletSettings bulletSettings = _staticDataModel.MetaData.BulletSettings;
-            _audioPlayer.Play(bulletSettings.Laser, bulletSettings.LaserVolume);
 
             Rocket bullet = _rocketFactory.Create(bulletSettings.BulletLifetime, _player.Transform.up.normalized, bulletSettings.BulletSpeed);
 

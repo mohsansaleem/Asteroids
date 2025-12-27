@@ -1,4 +1,6 @@
-﻿using PG.Asteroids.Models.MediatorModels;
+﻿using PG.Asteroids.Models;
+using PG.Asteroids.Models.DataModels;
+using PG.Asteroids.Models.MediatorModels;
 using UnityEngine;
 using Zenject;
 using Zenject.SpaceFighter;
@@ -9,6 +11,8 @@ namespace PG.Asteroids.Contexts.GamePlay
     {
         [Inject] private SignalBus _signalBus;
         [Inject] private SimulationModel _simulationModel;
+        [Inject] private StaticDataModel _staticDataModel;
+        [Inject] private AudioPlayer _audioPlayer;
         
         private float _startTime;
         private float _lifeTime;
@@ -39,6 +43,9 @@ namespace PG.Asteroids.Contexts.GamePlay
             _lifeTime = lifeTime;
 
             _startTime = Time.realtimeSinceStartup;
+            
+            BulletSettings bulletSettings = _staticDataModel.MetaData.BulletSettings;
+            _audioPlayer.Play(bulletSettings.Laser, bulletSettings.LaserVolume);
             
             Initialize(direction, speed);
         }
