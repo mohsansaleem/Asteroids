@@ -43,3 +43,6 @@ crashlytics-build.properties*
 
 # Core generated log files
 Tools/*
+
+# Logs
+Logs/*

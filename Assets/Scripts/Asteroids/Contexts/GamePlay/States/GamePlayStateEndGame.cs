@@ -14,8 +14,7 @@ namespace PG.Asteroids.Contexts.GamePlay
             await base.Enter();
 
             GamePlayModel.IsDead.Value = true;
-            View.EndGameCanvasGroup.alpha = 1;
-            View.EndGameCanvasGroup.interactable = true;
+            View.ShowEndGame(true);
         }
     }
 }

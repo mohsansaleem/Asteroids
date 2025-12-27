@@ -1,16 +1,14 @@
 {
-    "name": "Core",
+    "name": "Oryx.SimpleState.Editor",
     "rootNamespace": "",
     "references": [
-        "UniRx",
-        "Zenject",
-        "UniTask",
-        "Unity.Addressables",
-        "Unity.ResourceManager",
-        "Unity.TextMeshPro",
-        "DOTween.Modules"
+        "GUID:6055be8ebefd69e48b49212b09b47b2f",
+        "GUID:a8ab9d9ba6ccc4e68baea7de474f6988",
+        "GUID:b89e46ac6339785428e61f0195fa18da"
     ],
-    "includePlatforms": [],
+    "includePlatforms": [
+        "Editor"
+    ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,

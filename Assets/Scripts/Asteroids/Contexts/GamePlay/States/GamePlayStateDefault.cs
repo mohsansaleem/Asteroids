@@ -17,8 +17,7 @@ namespace PG.Asteroids.Contexts.GamePlay
             GamePlayModel.Scores.Value = 0;
             GamePlayModel.IsDead.Value = false;
             
-            View.EndGameCanvasGroup.alpha = 0;
-            View.EndGameCanvasGroup.interactable = false;
+            View.ShowEndGame(false);
             
             SignalBus.Fire<SimulationStartedSignal>();
         }
