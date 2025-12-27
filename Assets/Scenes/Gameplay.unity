@@ -1707,12 +1707,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SimpleStateModels:
   - BasicActionModels:
-    - rid: 6854225277376528385
+    - rid: 6854225277376528389
     State: ShowEndGameTrue
     LayerIndex: 0
     CustomDuration: 0
   - BasicActionModels:
-    - rid: 6854225277376528387
+    - rid: 6854225277376528391
     State: ShowEndGameFalse
     LayerIndex: 0
     CustomDuration: 0
@@ -1720,15 +1720,15 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 6854225277376528385
-      type: {class: UpdateCanvasGroupActionModel, ns: Oryx, asm: Core}
+    - rid: 6854225277376528389
+      type: {class: UpdateCanvasGroupActionModel, ns: PG.Core.SimpleState, asm: Core}
       data:
         CanvasGroup: {fileID: 1976597602}
         Alpha: 1
         IsInteractible: 1
         BlockRaycasts: 1
-    - rid: 6854225277376528387
-      type: {class: UpdateCanvasGroupActionModel, ns: Oryx, asm: Core}
+    - rid: 6854225277376528391
+      type: {class: UpdateCanvasGroupActionModel, ns: PG.Core.SimpleState, asm: Core}
       data:
         CanvasGroup: {fileID: 1976597602}
         Alpha: 0

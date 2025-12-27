@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-namespace Oryx
+namespace PG.Core.SimpleState
 {
     public class SimpleStateComponent : MonoBehaviour
     {

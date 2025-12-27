@@ -8,7 +8,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Oryx
+namespace PG.Core.SimpleState
 {
     [CustomEditor(typeof(SimpleStateComponent))]
     public class FSimpleStateComponentEditor : Editor
