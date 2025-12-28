@@ -14,24 +14,22 @@ namespace PG.Asteroids.Contexts.GamePlay
 
         public void Tick(float deltaTime)
         {
-            for (var index = 0; index < _simulationModel.SimulationEntities.Count; index++)
+            for (int i = 0; i < SimulationModel.MAX_ENTITIES; i++)
             {
-                var simulationEntity = _simulationModel.SimulationEntities[index];
-                if (simulationEntity is MovingEntity movingEntity)
+                if ((_simulationModel.Masks[i] & EntityMask.Movable) != 0)
                 {
-                    movingEntity.Tick(deltaTime);
+                    _simulationModel.Views[i].Tick(deltaTime);
                 }
             }
         }
 
-        public void FixedTick(float deltaTime)
+        public void FixedTick(float fixedDeltaTime)
         {
-            for (var index = 0; index < _simulationModel.SimulationEntities.Count; index++)
+            for (int i = 0; i < SimulationModel.MAX_ENTITIES; i++)
             {
-                var simulationEntity = _simulationModel.SimulationEntities[index];
-                if (simulationEntity is MovingEntity movingEntity)
+                if ((_simulationModel.Masks[i] & EntityMask.Movable) != 0)
                 {
-                    movingEntity.FixedTick(deltaTime);
+                    _simulationModel.Views[i].FixedTick(fixedDeltaTime);
                 }
             }
         }

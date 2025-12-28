@@ -4,7 +4,7 @@ namespace PG.Asteroids.Contexts.GamePlay
     {
         public void Initialize();
         public void Tick(float deltaTime);
-        public void FixedTick(float deltaTime);
+        public void FixedTick(float fixedDeltaTime);
         public void Reset();
         public void Dispose();
     }

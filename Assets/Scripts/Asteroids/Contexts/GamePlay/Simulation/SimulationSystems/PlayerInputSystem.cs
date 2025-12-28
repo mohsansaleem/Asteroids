@@ -40,7 +40,7 @@ namespace PG.Asteroids.Contexts.GamePlay
             inputState.IsFiring = Input.GetKey(KeyCode.F) || Input.GetKey(KeyCode.Space) || Input.GetMouseButton(0);
         }
 
-        public void FixedTick(float deltaTime)
+        public void FixedTick(float fixedDeltaTime)
         {
             
         }

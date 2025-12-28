@@ -15,49 +15,52 @@ namespace PG.Asteroids.Contexts.GamePlay
     {
         [SerializeField]
         ParticleSystem _particleSystem;
-        
-        [Inject] private SignalBus _signalBus;
+
         [Inject] private SimulationModel _simulationModel;
         [Inject] private StaticDataModel _staticDataModel;
         [Inject] private AudioPlayer _audioPlayer;
-        
+        [Inject] private CommandBufferMediator _commandBufferMediator;
+
         private float _startTime;
         private float _lifeTime;
-
-        IMemoryPool _pool;
 
         public override void Tick(float deltaTime)
         {
             base.Tick(deltaTime);
             if (Time.realtimeSinceStartup - _startTime > _lifeTime)
             {
-                _simulationModel.SimulationEntitiesExpired.Add(this);
+                _commandBufferMediator.RequestDestroy(EntityId, Pool);
             }
         }
 
         public override void Despawn()
         {
-            _pool.Despawn(this);
+            if (Pool == null)
+                throw new System.InvalidOperationException($"{nameof(Explosion)} pool is null - entity was not properly spawned");
+
+            Pool.Despawn(this);
         }
 
         public void OnDespawned()
         {
+            Pool = null;
         }
 
         public void OnSpawned(float lifeTime, Vector3 position, IMemoryPool pool)
         {
+            Pool = pool ?? throw new System.ArgumentNullException(nameof(pool));
+            _lifeTime = lifeTime;
+            _startTime = Time.realtimeSinceStartup;
+
             Initialize();
-            
+
             _particleSystem.Clear();
             _particleSystem.Play();
 
             ExplosionSettings explosionSettings = _staticDataModel.MetaData.ExplosionSettings;
             _audioPlayer.Play(explosionSettings.Explosion, explosionSettings.ExplosionVolume);
-            
-            _lifeTime = lifeTime;
-            _startTime = Time.realtimeSinceStartup;
-            _pool = pool;
-            Transform.position = position;
+
+            transform.position = position;
         }
 
         public class Factory : PlaceholderFactory<float, Vector3, Explosion>

@@ -19,23 +19,47 @@ namespace PG.Asteroids.Models.MediatorModels
         }
     }
 
+    [Flags]
+    public enum EntityMask
+    {
+        None = 0,
+        Movable = 1 << 0,
+        Explosion = 1 << 1,
+        Explosive = 1 << 2,
+        Dead = 1 << 3,
+        PlayerShip = 1 << 4
+    }
+
     public class SimulationModel
     {
-        public ReactiveProperty<int> AsteroidsCount;
-        public ShipSimulationModel ShipSimulationModel;
-        public List<SimulationEntity> SimulationEntities;
-        public PlayerInputState PlayerInputState;
-        public List<SimulationEntity> SimulationEntitiesQueue;
-        public List<SimulationEntity> SimulationEntitiesExpired;
+        public ReactiveProperty<int> AsteroidsCount = new(0);
+        public ShipSimulationModel ShipSimulationModel = new();
+        public PlayerInputState PlayerInputState = new();
 
-        public SimulationModel()
+        // Entity Registry
+        public const int MAX_ENTITIES = 150;
+        public readonly EntityMask[] Masks = new EntityMask[MAX_ENTITIES];
+        public readonly SimulationEntity[] Views = new SimulationEntity[MAX_ENTITIES];
+
+        public int Register(SimulationEntity view, EntityMask mask)
         {
-            AsteroidsCount = new ReactiveProperty<int>(0);
-            ShipSimulationModel = new ShipSimulationModel();
-            SimulationEntities = new List<SimulationEntity>();
-            PlayerInputState = new PlayerInputState();
-            SimulationEntitiesQueue = new List<SimulationEntity>();
-            SimulationEntitiesExpired = new List<SimulationEntity>();
+            for (int i = 0; i < MAX_ENTITIES; i++)
+            {
+                if (Masks[i] == EntityMask.None)
+                {
+                    Masks[i] = mask;
+                    Views[i] = view;
+                    return i;
+                }
+            }
+
+            return -1;
+        }
+
+        public void Unregister(int id)
+        {
+            Masks[id] = EntityMask.None;
+            Views[id] = null;
         }
     }
 

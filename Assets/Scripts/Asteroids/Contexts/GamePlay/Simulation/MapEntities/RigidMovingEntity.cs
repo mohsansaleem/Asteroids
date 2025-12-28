@@ -8,27 +8,22 @@ namespace PG.Asteroids.Contexts.GamePlay
 {
     public abstract class RigidMovingEntity : MovingEntity
     {
-        [Inject] private LevelHelper _level;
-        
         protected Rigidbody RigidBody;
         private MovingEntityModel _settings;
 
-        public void Initialize(MovingEntityModel settings)
+        protected void Initialize(MovingEntityModel settings)
         {
             Initialize();
             RigidBody = GetComponent<Rigidbody>();
-            
-            _settings = settings;
+
+            if (RigidBody == null)
+                throw new System.InvalidOperationException($"{GetType().Name} requires a Rigidbody component");
+
+            _settings = settings ?? throw new System.ArgumentNullException(nameof(settings));
             Mass = settings.Mass;
             Scale = settings.Scale;
             Position = settings.Position;
             RigidBody.velocity = settings.Velocity;
-        }
-        
-        public Vector3 Position
-        {
-            get { return transform.position; }
-            set { transform.position = value; }
         }
 
         public float Mass
@@ -37,20 +32,14 @@ namespace PG.Asteroids.Contexts.GamePlay
             set { RigidBody.mass = value; }
         }
 
-        public float Scale
+        public override float Scale
         {
-            get
-            {
-                var scale = transform.localScale;
-                // We assume scale is uniform
-                Assert.That(scale[0] == scale[1] && scale[1] == scale[2]);
-
-                return scale[0];
-            }
+            get => base.Scale;
             set
             {
-                transform.localScale = new Vector3(value, value, value);
-                RigidBody.mass = value;
+                base.Scale = value;
+                if (RigidBody != null)
+                    RigidBody.mass = value;
             }
         }
 
@@ -73,12 +62,6 @@ namespace PG.Asteroids.Contexts.GamePlay
             }
         }
 
-        public override void Tick(float deltaTime)
-        {
-            base.Tick(deltaTime);
-            Transform.RotateAround(Transform.position, Vector3.up, 30 * Time.deltaTime);
-        }
-        
         protected override bool IsMovingInDirection(Vector3 dir)
         {
             return Vector3.Dot(dir, RigidBody.velocity) > 0;

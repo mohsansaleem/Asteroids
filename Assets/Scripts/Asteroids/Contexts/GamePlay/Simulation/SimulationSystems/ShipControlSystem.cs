@@ -18,26 +18,16 @@ namespace PG.Asteroids.Contexts.GamePlay
         [Inject] private readonly SimulationModel _simulationModel;
         [Inject] private readonly AudioPlayer _audioPlayer;
         [Inject] private readonly PlayerShip _player;
-        [Inject] private readonly Rocket.Factory _rocketFactory;
+        [Inject] private readonly CommandBufferMediator _commandBufferMediator;
 
         private float _lastFireTime;
 
         public void Initialize()
         {
-            _simulationModel.SimulationEntitiesQueue.Add(_player);
-            _signalBus.Subscribe<PlayerCrashedSignal>(OnShipCrashed);
-        }
-
-        private void OnShipCrashed(PlayerCrashedSignal signal)
-        {
-            ShipData shipData = _staticDataModel.MetaData.ShipData;
-            _audioPlayer.Play(shipData.DeathSound, shipData.DeathVolume);
+            int entityId = _simulationModel.Register(_player, EntityMask.Movable | EntityMask.PlayerShip);
+            _player.EntityId = entityId;
             
-            _gamePlayModel.Lives.Value--;
-            if (_gamePlayModel.Lives.Value > 0)
-            {
-                _player.AddShield();
-            }
+            _player.ApplyDrag();
         }
 
         public void Tick(float deltaTime)
@@ -49,17 +39,6 @@ namespace PG.Asteroids.Contexts.GamePlay
 
             PlayerInputState inputState = _simulationModel.PlayerInputState;
 
-            if (inputState.IsMovingUp)
-                _player.Thrust(0.3f);
-            else if (inputState.IsSlowingDown)
-                _player.Thrust(-0.3f);
-
-
-            if (inputState.IsRotatingLeft)
-                _player.Rotate(-0.4f);
-            else if (inputState.IsRotatingRight)
-                _player.Rotate(0.4f);
-
             if (inputState.IsFiring && Time.realtimeSinceStartup - _lastFireTime > _staticDataModel.MetaData.BulletSettings.MaxShootInterval)
             {
                 _lastFireTime = Time.realtimeSinceStartup;
@@ -70,17 +49,39 @@ namespace PG.Asteroids.Contexts.GamePlay
         void Fire()
         {
             BulletSettings bulletSettings = _staticDataModel.MetaData.BulletSettings;
-
-            Rocket bullet = _rocketFactory.Create(bulletSettings.BulletLifetime, _player.Transform.up.normalized, bulletSettings.BulletSpeed);
-
-            bullet.transform.position = _player.Position + _player.transform.up * bulletSettings.BulletOffsetDistance;
-            bullet.transform.rotation = _player.Transform.rotation;
-
-            _simulationModel.SimulationEntitiesQueue.Add(bullet);
+            Vector3 position = _player.Position + _player.transform.up * bulletSettings.BulletOffsetDistance;
+            var direction = _player.transform.up.normalized;
+            Quaternion rotation = _player.transform.rotation;
+            
+            _commandBufferMediator.RequestSpawnRocket(position, direction, rotation);
         }
 
-        public void FixedTick(float deltaTime)
+        public void FixedTick(float fixedDeltaTime)
         {
+            if (_gamePlayModel.IsDead.Value)
+            {
+                return;
+            }
+
+            PlayerInputState inputState = _simulationModel.PlayerInputState;
+
+            float thrustInput = 0f;
+            if (inputState.IsMovingUp)
+                thrustInput = 0.3f;
+            else if (inputState.IsSlowingDown)
+                thrustInput = -0.3f;
+
+            if (thrustInput != 0f)
+                _player.ApplyThrust(thrustInput);
+
+            float rotationInput = 0f;
+            if (inputState.IsRotatingLeft)
+                rotationInput = -0.4f;
+            else if (inputState.IsRotatingRight)
+                rotationInput = 0.4f;
+
+            if (rotationInput != 0f)
+                _player.ApplyRotation(rotationInput);
         }
 
         public void Reset()
@@ -90,7 +91,6 @@ namespace PG.Asteroids.Contexts.GamePlay
         
         public void Dispose()
         {
-            _signalBus.Unsubscribe<PlayerCrashedSignal>(OnShipCrashed);
         }
     }
 }

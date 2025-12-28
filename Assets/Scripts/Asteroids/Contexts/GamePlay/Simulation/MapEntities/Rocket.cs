@@ -9,21 +9,25 @@ namespace PG.Asteroids.Contexts.GamePlay
 {
     public class Rocket : LinearMovingEntity, IPoolable<float, Vector3, float, IMemoryPool>
     {
-        [Inject] private SignalBus _signalBus;
         [Inject] private SimulationModel _simulationModel;
         [Inject] private StaticDataModel _staticDataModel;
         [Inject] private AudioPlayer _audioPlayer;
-        
+        [Inject] private CommandBufferMediator _commandBufferMediator;
+
         private float _startTime;
         private float _lifeTime;
-        IMemoryPool _pool;
-
+        
         public void OnTriggerEnter(Collider other)
         {
             if (other.CompareTag("asteroid"))
             {
-                _signalBus.Fire<RocketHitSignal>(new RocketHitSignal(other.GetComponent<Asteroid>(), this));
-                _pool.Despawn(this);
+                var asteroid = other.GetComponent<Asteroid>();
+                if (asteroid != null)
+                {
+                    _commandBufferMediator.RequestSpawnExplosion(_staticDataModel.MetaData.ExplosionSettings.ExplosionTimeout, Position);
+                    _commandBufferMediator.RequestDestroy(EntityId, Pool);
+                    _commandBufferMediator.RequestAsteroidHit(asteroid.EntityId);
+                }
             }
         }
 
@@ -33,31 +37,33 @@ namespace PG.Asteroids.Contexts.GamePlay
 
             if (Time.realtimeSinceStartup - _startTime > _lifeTime)
             {
-                _simulationModel.SimulationEntitiesExpired.Add(this);
+                _commandBufferMediator.RequestDestroy(EntityId, Pool);
             }
         }
 
         public void OnSpawned(float lifeTime, Vector3 direction, float speed, IMemoryPool pool)
         {
-            _pool = pool;
+            Pool = pool ?? throw new System.ArgumentNullException(nameof(pool));
             _lifeTime = lifeTime;
-
             _startTime = Time.realtimeSinceStartup;
-            
+
             BulletSettings bulletSettings = _staticDataModel.MetaData.BulletSettings;
             _audioPlayer.Play(bulletSettings.Laser, bulletSettings.LaserVolume);
-            
+
             Initialize(direction, speed);
         }
-        
+
         public override void Despawn()
         {
-            _pool?.Despawn(this);
+            if (Pool == null)
+                throw new System.InvalidOperationException($"{nameof(Rocket)} pool is null - entity was not properly spawned");
+
+            Pool.Despawn(this);
         }
 
         public void OnDespawned()
         {
-            _pool = null;
+            Pool = null;
         }
 
         public class Factory : PlaceholderFactory<float, Vector3, float, Rocket>

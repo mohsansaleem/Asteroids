@@ -15,52 +15,37 @@ namespace PG.Asteroids.Contexts.GamePlay
         
         public void Initialize()
         {
-            _signalBus.Subscribe<RocketHitSignal>(OnRocketHit);
-            _signalBus.Subscribe<PlayerCrashedSignal>(OnShipCrashed);
         }
 
         public void Tick(float deltaTime)
         {
-            for (var index = 0; index < _simulationModel.SimulationEntities.Count; index++)
+            for (int i = 0; i < SimulationModel.MAX_ENTITIES; i++)
             {
-                var simulationEntity = _simulationModel.SimulationEntities[index];
-                if (simulationEntity is Explosion movingEntity)
+                if ((_simulationModel.Masks[i] & EntityMask.Explosion) != 0)
                 {
-                    movingEntity.Tick(deltaTime);
+                    _simulationModel.Views[i].Tick(deltaTime);
                 }
             }
         }
 
-        public void FixedTick(float deltaTime)
+        public void FixedTick(float fixedDeltaTime)
         {
-            
+            for (int i = 0; i < SimulationModel.MAX_ENTITIES; i++)
+            {
+                if ((_simulationModel.Masks[i] & EntityMask.Explosion) != 0)
+                {
+                    _simulationModel.Views[i].FixedTick(fixedDeltaTime);
+                }
+            }
         }
 
-        private void CreateExplosion(Vector3 position)
-        {
-            Explosion explosion = _explosionFactory.Create(_staticDataModel.MetaData.ExplosionSettings.ExplosionTimeout, position);
-            _simulationModel.SimulationEntitiesQueue.Add(explosion);
-        }
-        
-        private void OnRocketHit(RocketHitSignal signal)
-        {
-            CreateExplosion(signal.Asteroid.Position);
-        }
-
-        private void OnShipCrashed(PlayerCrashedSignal signal)
-        {
-            CreateExplosion(signal.Asteroid.Position);
-        }
         
         public void Reset()
         {
-            
         }
 
         public void Dispose()
         {
-            _signalBus.Unsubscribe<RocketHitSignal>(OnRocketHit);
-            _signalBus.Unsubscribe<PlayerCrashedSignal>(OnShipCrashed);
         }
     }
 }

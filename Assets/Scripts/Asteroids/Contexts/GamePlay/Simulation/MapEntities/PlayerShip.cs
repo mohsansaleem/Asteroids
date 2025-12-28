@@ -6,10 +6,11 @@ using Zenject;
 
 namespace PG.Asteroids.Contexts.GamePlay
 {
-    public class PlayerShip : MovingEntity
+    public class PlayerShip : RigidMovingEntity
     {
         [SerializeField] GameObject _sheildGameObject;
         [SerializeField] MeshRenderer _meshRenderer;
+        [SerializeField] Rigidbody _rigidbody;
 
 #if UNITY_2018_1_OR_NEWER
         [SerializeField] ParticleSystem _particleSystem;
@@ -20,32 +21,46 @@ namespace PG.Asteroids.Contexts.GamePlay
 
         [Inject] private GamePlayModel _gamePlayModel;
         [Inject] private StaticDataModel _staticDataModel;
-        [Inject] private SignalBus _signalBus;
-        
+        [Inject] private CommandBufferMediator _commandBufferMediator;
+
         private float _shieldDuration;
-        private float _movementSpeed;
-        private Vector3 _movementDirection;
-        private float _rotationSpeed;
-        private Vector3 _lastPosition;
-        IMemoryPool _pool;
+
+        public Rigidbody Rigidbody => _rigidbody;
+        public bool HasShield => _shieldDuration > 0;
+
+        public void Initialize()
+        {
+            var settings = new MovingEntityModel()
+            {
+                Mass = 1f,
+                Scale = 1,
+                Velocity = Vector3.zero,
+                Position = Vector3.zero,
+                MaxSpeed = _staticDataModel.MetaData.ShipData.ShipMaxMovementSpeed
+            };
+            base.Initialize(settings);
+        }
 
         public void OnTriggerEnter(Collider other)
         {
             if (_shieldDuration > 0 || _gamePlayModel.IsDead.Value)
                 return;
-            
+
             if (other.CompareTag("asteroid"))
             {
-                Asteroid asteroid = other.GetComponent<Asteroid>();
-                _signalBus.Fire<PlayerCrashedSignal>(new PlayerCrashedSignal(asteroid, this));
+                var asteroid = other.GetComponent<Asteroid>();
+                if (asteroid != null)
+                {
+                    _commandBufferMediator.RequestSpawnExplosion(_staticDataModel.MetaData.ExplosionSettings.ExplosionTimeout, Position);
+                    _commandBufferMediator.RequestShipCrash(EntityId);
+                }
             }
         }
 
         public override void Tick(float deltaTime)
         {
             base.Tick(deltaTime);
-            
-            Move(deltaTime);
+
             UpdateThruster();
 
             if (_shieldDuration > 0)
@@ -58,30 +73,10 @@ namespace PG.Asteroids.Contexts.GamePlay
 
         public override void Despawn()
         {
-            _pool?.Despawn(this);
-        }
+            if (Pool == null)
+                throw new System.InvalidOperationException($"{nameof(PlayerShip)} pool is null - entity was not properly spawned");
 
-        private void Move(float deltaTime)
-        {
-            _lastPosition = Position;
-            _movementDirection += Transform.up * _movementSpeed * deltaTime;
-            _movementDirection = new Vector3(_movementDirection.x, _movementDirection.y, 0);
-            transform.position += _movementDirection * deltaTime;
-            transform.Rotate(-Vector3.forward, _rotationSpeed * deltaTime);
-            _rotationSpeed = 0;
-            
-            ShipData shipData = _staticDataModel.MetaData.ShipData;
-            float movementMagnitude = Mathf.Clamp(_movementDirection.magnitude - (shipData.ShipDeacceleration * deltaTime), 0, shipData.ShipMaxMovementSpeed);
-            _movementDirection = _movementDirection.normalized * movementMagnitude;
-            
-            if (_movementSpeed > 0)
-            {
-                _movementSpeed -= shipData.ShipDeacceleration;
-            }
-            else
-            {
-                _movementSpeed = 0;
-            }
+            Pool.Despawn(this);
         }
 
         public void AddShield()
@@ -90,33 +85,55 @@ namespace PG.Asteroids.Contexts.GamePlay
             _sheildGameObject.SetActive(true);
         }
         
-        public void Thrust(float amount)
+        public void ApplyThrust(float thrustInput)
         {
-            if (_movementSpeed < _staticDataModel.MetaData.ShipData.ShipMaxMovementSpeed)
+            if (_rigidbody == null) return;
+
+            ShipData shipData = _staticDataModel.MetaData.ShipData;
+            Vector3 thrustDirection = transform.up;
+            float thrustForce = thrustInput * shipData.ShipMovementAcceleration;
+
+            _rigidbody.AddForce(thrustDirection * thrustForce, ForceMode.Force);
+
+            // Clamp velocity to max speed
+            if (_rigidbody.velocity.magnitude > shipData.ShipMaxMovementSpeed)
             {
-                _movementSpeed += amount * _staticDataModel.MetaData.ShipData.ShipMovementAcceleration;
-                if (_movementSpeed < 0)
-                    _movementSpeed = 0;
+                _rigidbody.velocity = _rigidbody.velocity.normalized * shipData.ShipMaxMovementSpeed;
             }
         }
 
-        public void Rotate(float delta)
+        public void ApplyRotation(float rotationInput)
         {
-            _rotationSpeed += delta * _staticDataModel.MetaData.ShipData.ShipRotationSpeed;
+            if (_rigidbody == null) return;
+
+            ShipData shipData = _staticDataModel.MetaData.ShipData;
+            Vector3 torque = -Vector3.forward * rotationInput * shipData.ShipRotationSpeed;
+            _rigidbody.AddTorque(torque, ForceMode.Force);
+        }
+
+        public void ApplyDrag()
+        {
+            if (_rigidbody == null) return;
+
+            ShipData shipData = _staticDataModel.MetaData.ShipData;
+            _rigidbody.drag = shipData.ShipDeacceleration;
         }
 
         public void ResetShip()
         {
-            _movementSpeed = 0;
-            _rotationSpeed = 0;
+            if (_rigidbody != null)
+            {
+                _rigidbody.velocity = Vector3.zero;
+                _rigidbody.angularVelocity = Vector3.zero;
+            }
             AddShield();
-            Transform.position = Vector3.zero;
-            Transform.rotation = Quaternion.identity;
+            transform.position = Vector3.zero;
+            transform.rotation = Quaternion.identity;
         }
         
         void UpdateThruster()
         {
-            var speed = (Transform.position - _lastPosition).magnitude / Time.deltaTime;
+            float speed = _rigidbody != null ? _rigidbody.velocity.magnitude : 0;
             var speedPx = Mathf.Clamp(speed / _staticDataModel.MetaData.ShipData.SpeedForMaxEmisssion, 0.0f, 1.0f);
 
 #if UNITY_2018_1_OR_NEWER
@@ -127,24 +144,25 @@ namespace PG.Asteroids.Contexts.GamePlay
 #endif
         }
 
-        protected override bool IsMovingInDirection(Vector3 dir)
+        public void OnSpawned()
         {
-            return Vector3.Dot(dir, _movementDirection) > 0;
-        }
-
-        public void OnSpawned(IMemoryPool pool)
-        {
-            _pool = pool;
+            Initialize();
             AddShield();
         }
 
         public void OnDespawned()
         {
-            _pool = null;
+            Pool = null;
         }
 
         public class Factory : PlaceholderFactory<PlayerShip>
         {
+            public override PlayerShip Create()
+            {
+                var instance = base.Create();
+                instance.OnSpawned();
+                return instance;
+            }
         }
     }
 }

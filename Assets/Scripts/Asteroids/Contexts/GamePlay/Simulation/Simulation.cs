@@ -17,6 +17,7 @@ namespace PG.Asteroids.Contexts.GamePlay
         [Inject] private MediatorStateMachine _mediatorStateMachine;
         [Inject] private SimulationSystemFactory _simulationSystemFactory;
         [Inject] private List<ISimulationSystem> _simulationSystems;
+        [Inject] private CommandBufferMediator _commandBufferMediator;
         
         public virtual void Initialize()
 		{
@@ -33,12 +34,14 @@ namespace PG.Asteroids.Contexts.GamePlay
             float deltaTime = Time.deltaTime;
             foreach (var simulationSystem in _simulationSystems)
                 simulationSystem.Tick(deltaTime);
+            
+            _commandBufferMediator.Playback();
         }
         
         public void FixedTick()
         {
             foreach (var simulationSystem in _simulationSystems)
-                simulationSystem.FixedTick(Time.deltaTime);
+                simulationSystem.FixedTick(Time.fixedDeltaTime);
         }
         
         private void OnSimulationStarted(SimulationStartedSignal signal)

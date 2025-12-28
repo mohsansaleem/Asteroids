@@ -17,13 +17,13 @@ namespace PG.Core.Contexts.StateManagement
         {
             BindMisc();
             
-            DeclareSignals();
-            
-            BindPlayerShip();
             BindAstroidsFactory();
             BindRocketFactory();
             BindExplosionFactory();
-                
+            
+            BindCommandBuffer();
+            
+            BindPlayerShip();
             BindSimulationSystems();
             Container.BindInterfacesAndSelfTo<Simulation>().AsSingle();
         }
@@ -33,7 +33,6 @@ namespace PG.Core.Contexts.StateManagement
             Container.Bind<SimulationSystemFactory>().AsSingle();
             
             // Bind multiple different Simulation systems
-            Container.Bind<ISimulationSystem>().To<EntitiesQueueSystem>().AsSingle();
             Container.Bind<ISimulationSystem>().To<AsteroidsSystem>().AsSingle();
             Container.Bind<ISimulationSystem>().To<PlayerInputSystem>().AsSingle();
             Container.Bind<ISimulationSystem>().To<ShipControlSystem>().AsSingle();
@@ -41,10 +40,37 @@ namespace PG.Core.Contexts.StateManagement
             Container.Bind<ISimulationSystem>().To<ExplosionSystem>().AsSingle();
         }
 
-        private void DeclareSignals()
+        private void BindCommandBuffer()
         {
-            Container.DeclareSignal<PlayerCrashedSignal>();
-            Container.DeclareSignal<RocketHitSignal>();
+            Container.Bind<CommandBuffer>().AsSingle();
+            
+            // Bind command pools
+            Container.BindFactory<int, RigidMovingEntity.MovingEntityModel, SpawnAsteroidsCommand, SpawnAsteroidsCommand.CommandFactory>()
+                .FromPoolableMemoryPool(poolBinder => poolBinder
+                    .WithInitialSize(10)
+                    .FromNew());
+            Container.BindFactory<int, ShipCrashedCommand, ShipCrashedCommand.CommandFactory>()
+                .FromPoolableMemoryPool(poolBinder => poolBinder
+                    .WithInitialSize(1)
+                    .FromNew());
+             Container.BindFactory<Vector3, Vector3, Quaternion, SpawnRocketCommand, SpawnRocketCommand.CommandFactory>()
+                 .FromPoolableMemoryPool(poolBinder => poolBinder
+                    .WithInitialSize(10)
+                    .FromNew());
+             Container.BindFactory<int, AsteroidHitCommand, AsteroidHitCommand.CommandFactory>()
+                 .FromPoolableMemoryPool(poolBinder => poolBinder
+                     .WithInitialSize(5)
+                     .FromNew());
+            Container.BindFactory<float, Vector3, SpawnExplosionCommand, SpawnExplosionCommand.CommandFactory>()
+                .FromPoolableMemoryPool(poolBinder => poolBinder
+                    .WithInitialSize(5)
+                    .FromNew());
+            Container.BindFactory<int, IMemoryPool, DestroyEntityCommand, DestroyEntityCommand.CommandFactory>()
+                .FromPoolableMemoryPool(poolBinder => poolBinder
+                    .WithInitialSize(7)
+                    .FromNew());
+            
+            Container.BindInterfacesAndSelfTo<CommandBufferMediator>().AsSingle();
         }
         
         private void BindMisc()
@@ -57,10 +83,12 @@ namespace PG.Core.Contexts.StateManagement
         private void BindPlayerShip()
         {
             GameObject prefab = _assetsLoader.Load<GameObject>("Ship");
+            Container.BindFactory<PlayerShip, PlayerShip.Factory>().FromComponentInNewPrefab(prefab);
+
+            PlayerShip.Factory factory = Container.Resolve<PlayerShip.Factory>();
+            PlayerShip playerShip = factory.Create();
             
-            Container.BindInterfacesAndSelfTo<PlayerShip>()
-                .FromComponentInNewPrefab(prefab)
-                .AsSingle();
+            Container.BindInterfacesAndSelfTo<PlayerShip>().FromInstance(playerShip).AsSingle();
         }
         
         private void BindAstroidsFactory()

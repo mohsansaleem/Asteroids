@@ -44,7 +44,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 1706.6667
+    width: 1706.6666
     height: 976
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
@@ -69,7 +69,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 1706.6667
+    width: 1706.6666
     height: 30
   m_MinSize: {x: 0, y: 0}
   m_MaxSize: {x: 0, y: 0}
@@ -91,7 +91,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 956
-    width: 1706.6667
+    width: 1706.6666
     height: 20
   m_MinSize: {x: 0, y: 0}
   m_MaxSize: {x: 0, y: 0}
@@ -113,12 +113,12 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 30
-    width: 1706.6667
+    width: 1706.6666
     height: 926
   m_MinSize: {x: 300, y: 100}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 1
-  controlID: 73711
+  controlID: 98
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -138,12 +138,12 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 1706.6667
+    width: 1706.6666
     height: 926
   m_MinSize: {x: 300, y: 100}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 73712
+  controlID: 99
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -163,12 +163,12 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 1220
+    width: 1148.6666
     height: 926
   m_MinSize: {x: 200, y: 100}
   m_MaxSize: {x: 16192, y: 16192}
   vertical: 1
-  controlID: 73713
+  controlID: 47
 --- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -188,12 +188,12 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 1220
+    width: 1148.6666
     height: 549.3333
   m_MinSize: {x: 200, y: 50}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 73714
+  controlID: 40
 --- !u!114 &9
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -211,7 +211,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 302
+    width: 284.66666
     height: 549.3333
   m_MinSize: {x: 201, y: 221}
   m_MaxSize: {x: 4001, y: 4021}
@@ -235,9 +235,9 @@ MonoBehaviour:
   m_Children: []
   m_Position:
     serializedVersion: 2
-    x: 302
+    x: 284.66666
     y: 0
-    width: 918
+    width: 864
     height: 549.3333
   m_MinSize: {x: 202, y: 221}
   m_MaxSize: {x: 4002, y: 4021}
@@ -266,7 +266,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 549.3333
-    width: 1220
+    width: 1148.6666
     height: 376.6667
   m_MinSize: {x: 231, y: 271}
   m_MaxSize: {x: 10001, y: 10021}
@@ -292,12 +292,12 @@ MonoBehaviour:
   m_Children: []
   m_Position:
     serializedVersion: 2
-    x: 1220
+    x: 1148.6666
     y: 0
-    width: 486.66675
+    width: 558
     height: 926
-  m_MinSize: {x: 276, y: 71}
-  m_MaxSize: {x: 4001, y: 4021}
+  m_MinSize: {x: 275, y: 50}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 21}
   m_Panes:
   - {fileID: 21}
@@ -324,9 +324,9 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 302
+    x: 284.6667
     y: 72.66667
-    width: 916
+    width: 862
     height: 528.3333
   m_SerializedDataModeController:
     m_DataMode: 0
@@ -352,7 +352,7 @@ MonoBehaviour:
   m_UseMipMap: 0
   m_VSyncEnabled: 0
   m_Gizmos: 0
-  m_Stats: 0
+  m_Stats: 1
   m_SelectedSizes: 02000000000000000000000000000000000000000000000000000000000000000000000000000000
   m_ZoomArea:
     m_HRangeLocked: 0
@@ -380,23 +380,23 @@ MonoBehaviour:
       serializedVersion: 2
       x: 0
       y: 21
-      width: 916
+      width: 862
       height: 507.3333
     m_Scale: {x: 1.5, y: 1.5}
-    m_Translation: {x: 458, y: 253.66666}
+    m_Translation: {x: 431, y: 253.66666}
     m_MarginLeft: 0
     m_MarginRight: 0
     m_MarginTop: 0
     m_MarginBottom: 0
     m_LastShownAreaInsideMargins:
       serializedVersion: 2
-      x: -305.33334
+      x: -287.33334
       y: -169.1111
-      width: 610.6667
+      width: 574.6667
       height: 338.2222
     m_MinimalGUI: 1
   m_defaultScale: 1
-  m_LastWindowPixelSize: {x: 1374, y: 792.5}
+  m_LastWindowPixelSize: {x: 1293, y: 792.5}
   m_ClearInEditMode: 1
   m_NoCameraWarning: 1
   m_LowResolutionForAspectRatios: 01000000000000000000
@@ -425,7 +425,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 72.66667
-    width: 301
+    width: 283.66666
     height: 528.3333
   m_SerializedDataModeController:
     m_DataMode: 0
@@ -440,9 +440,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 3cb60000
+      m_SelectedIDs: 52f7ffff
       m_LastClickedID: 0
-      m_ExpandedIDs: 3400faff9803faffea04faffc806faff5c08faff5409faff460afaff520bfaff940dfaff680efaff340ffaff0810faff5a10faff4211faff0e12fafffe12faffc613faff1214faff5215faff2216faff7016faffb816faff9617faff8818faffd618faff3a19faff6e1cfaffc220fafffc20faff2422faff6022faff9a22faffdc4cfafff69bfaff1c9ffaff369ffaffb89ffaff00a0faff2ca0faff76a2faff52a5faff0ea6faff1caafaffcccdfaff68dbfaffe2ddfaff3cdefaffb4e7faff7a06fbffb21bfbffc81efbff2421fbffb821fbff9822fbff922ffbff0e30fbfff230fbffce35fbff4a36fbff2a37fbffd03cfbffbc3dfbff0840fbffec40fbffc064fbff5465fbfffc65fbff3466fbffb869fbfff469fbff366dfbff6670fbff3673fbffe074fbff6a76fbffea79fbff5880fbff2884fbff4e84fbff6c84fbffb68bfbff0a8cfbff328cfbff0a94fbffde97fbffd2a1fbff90a5fbffa8a5fbffe0a5fbff38a9fbfff4a9fbff42b2fbff50b3fbffd2b3fbff0abdfbff18c3fbff4cc6fbff9cc9fbff50d8fbffb4dcfbff88dffbff60e2fbfff2e3fbff30e5fbff88e8fbffe8edfbff9ef3fbffb2f3fbff08f5fbff9412fcff125afcff0a62fcff4262fcfff062fcff1266fcffd86bfcffd06cfcffa06efcffd86efcffb272fcffea72fcff9473fcff4074fcff8277fcffac79fcff347afcffdc82fcff1483fcff8e8cfdffc68cfdffc491fdffdca0fdff50a2fdffd4a3fdff4ca9fdff70abfdffc8acfdffd4adfdffa2bbfdffdcbbfdff28befdff16c0fdffc4c0fdffc2c2fdff58c3fdff04c4fdffa8ddfdff4cdffdff76dffdff20e1fdff2ce2fdff5e08feff2a09feff4209feff4c09feffc612feffc812feff2c17feffa417feff2a18feff7018feffac18fefff41afeffa21bfeff4a1ffeff0023feff3a23feff4623feff6423feff0856feffc456feff4457feff0a8cfeff4401ffff7e01ffffea29fffff4ffffffbab60000c0b60000e0b600008ab70000bab70000c4c60000dec6000076c70000d2d9000026da00000ee100007aeb00007eeb000004fb000008fb00006cfc00002efd000054fd00002a0801002e080100fc0f0100381e01003c1e0100801e0100164b0100324b0100f65801003859010050590100765b0100b85b0100b25c01003c7b0100
+      m_ExpandedIDs: d4adfeff74aefeff2c48ffff0ed9ffffb8e8ffff20eeffff64eeffffa8eeffff54efffffb2f0ffff24fbffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -487,9 +487,9 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 322.6667
+    x: 302
     y: 72.66667
-    width: 979.3334
+    width: 916
     height: 528.3333
   m_SerializedDataModeController:
     m_DataMode: 0
@@ -676,7 +676,7 @@ MonoBehaviour:
     m_SaveData: []
     m_OverlaysVisible: 1
   m_Spl:
-    ID: 71467
+    ID: 777
     splitterInitialOffset: 0
     currentActiveSplitter: -1
     realSizes:
@@ -6168,9 +6168,9 @@ MonoBehaviour:
       uniqueId: '[Asteroids][suite]'
       name: Asteroids
       fullName: Asteroids
-      resultStatus: 1
-      duration: 3.8477705
-      messages: 
+      resultStatus: 2
+      duration: 0.0310464
+      messages: One or more child tests had errors
       output: 
       stacktrace: 
       notRunnable: 0
@@ -6180,12 +6180,12 @@ MonoBehaviour:
       categories: []
       parentId: 
       parentUniqueId: 
-    - id: 1003
-      uniqueId: '[Asteroids-Tests-Editor][D:/Data/Development/Projects/Unity/Asteroids/Library/ScriptAssemblies/Asteroids-Tests-Editor.dll][suite]'
+    - id: 1006
+      uniqueId: '[Asteroids-Tests-Editor][D:/Data/Development/Projects/Unity/AsteroidsUnity/Library/ScriptAssemblies/Asteroids-Tests-Editor.dll][suite]'
       name: Asteroids-Tests-Editor.dll
-      fullName: D:/Data/Development/Projects/Unity/Asteroids/Library/ScriptAssemblies/Asteroids-Tests-Editor.dll
-      resultStatus: 1
-      duration: 3.817654
+      fullName: D:/Data/Development/Projects/Unity/AsteroidsUnity/Library/ScriptAssemblies/Asteroids-Tests-Editor.dll
+      resultStatus: 0
+      duration: 0
       messages: 
       output: 
       stacktrace: 
@@ -6201,7 +6201,7 @@ MonoBehaviour:
       name: SimulationTests
       fullName: SimulationTests
       resultStatus: 1
-      duration: 3.8129156
+      duration: 0.0781051
       messages: 
       output: 
       stacktrace: 
@@ -6217,7 +6217,7 @@ MonoBehaviour:
       name: ShipFactory
       fullName: SimulationTests.ShipFactory
       resultStatus: 1
-      duration: 3.7482674
+      duration: 0.0654839
       messages: 
       output: 
       stacktrace: 
@@ -6234,7 +6234,7 @@ MonoBehaviour:
       name: SimulationAssetLoader
       fullName: SimulationTests.SimulationAssetLoader
       resultStatus: 1
-      duration: 0.0017119
+      duration: 0.0017944
       messages: 
       output: 
       stacktrace: 
@@ -6251,7 +6251,7 @@ MonoBehaviour:
       name: SimulationSystemsFactory
       fullName: SimulationTests.SimulationSystemsFactory
       resultStatus: 1
-      duration: 0.000596
+      duration: 0.0006173
       messages: 
       output: 
       stacktrace: 
@@ -6268,7 +6268,7 @@ MonoBehaviour:
       name: SimulationSystemsInjection
       fullName: SimulationTests.SimulationSystemsInjection
       resultStatus: 1
-      duration: 0.0024499
+      duration: 0.0020016
       messages: 
       output: 
       stacktrace: 
@@ -15370,13 +15370,72 @@ MonoBehaviour:
       - Uncategorized
       parentId: 1035
       parentUniqueId: Zenject-UnitTests-Editor.dll/Zenject/Tests/[Zenject-UnitTests-Editor][Zenject.Tests.TestValidationSettings][suite]
-    m_ResultText: SimulationTests (3.813s)
-    m_ResultStacktrace: 
+    m_ResultText: "Initialize_ShouldInitializeAllSystems (0.001s)\n---\nSetUp : Zenject.ZenjectException
+      : Error while finalizing previous binding! Contract: SignalBus, Identifier:
+      NULL \r\n  ----> Zenject.ZenjectException : Assert hit! Attempted to use AsSingle
+      multiple times for type 'SignalBus'.  As of Zenject 6+, AsSingle as can no
+      longer be used for the same type across different bindings.  See the upgrade
+      guide for details.\n---\n--SetUp\r\n  at Zenject.ProviderBindingFinalizer.FinalizeBinding
+      (Zenject.DiContainer container) [0x00030] in D:\\Data\\Development\\Projects\\Unity\\AsteroidsUnity\\Assets\\Plugins\\Zenject\\Source\\Binding\\Finalizers\\ProviderBindingFinalizer.cs:59
+      \r\n  at Zenject.BindStatement.FinalizeBinding (Zenject.DiContainer container)
+      [0x00008] in D:\\Data\\Development\\Projects\\Unity\\AsteroidsUnity\\Assets\\Plugins\\Zenject\\Source\\Binding\\BindInfo\\BindStatement.cs:63
+      \r\n  at Zenject.DiContainer.FinalizeBinding (Zenject.BindStatement binding)
+      [0x00009] in D:\\Data\\Development\\Projects\\Unity\\AsteroidsUnity\\Assets\\Plugins\\Zenject\\Source\\Main\\DiContainer.cs:2663
+      \r\n  at Zenject.DiContainer.FlushBindings () [0x0002d] in D:\\Data\\Development\\Projects\\Unity\\AsteroidsUnity\\Assets\\Plugins\\Zenject\\Source\\Main\\DiContainer.cs:2643
+      \r\n  at Zenject.DiContainer.StartBinding (System.Boolean flush) [0x0001b]
+      in D:\\Data\\Development\\Projects\\Unity\\AsteroidsUnity\\Assets\\Plugins\\Zenject\\Source\\Main\\DiContainer.cs:2679
+      \r\n  at Zenject.DiContainer.Bind[TContract] () [0x00001] in D:\\Data\\Development\\Projects\\Unity\\AsteroidsUnity\\Assets\\Plugins\\Zenject\\Source\\Main\\DiContainer.cs:2713
+      \r\n  at PG.Asteroids.UnitTests.SimulationInitializeTests.CommonInstall ()
+      [0x00075] in D:\\Data\\Development\\Projects\\Unity\\AsteroidsUnity\\Assets\\UnitTests\\Editor\\SimulationInitializeTests.cs:46
+      \r\n  at (wrapper managed-to-native) System.Reflection.RuntimeMethodInfo.InternalInvoke(System.Reflection.RuntimeMethodInfo,object,object[],System.Exception&)\r\n 
+      at System.Reflection.RuntimeMethodInfo.Invoke (System.Object obj, System.Reflection.BindingFlags
+      invokeAttr, System.Reflection.Binder binder, System.Object[] parameters, System.Globalization.CultureInfo
+      culture) [0x0006a] in <27124aa0e30a41659b903b822b959bc7>:0 \r\n--ZenjectException\r\n 
+      at ModestTree.Assert.That (System.Boolean condition, System.String message,
+      System.Object p1) [0x0000a] in D:\\Data\\Development\\Projects\\Unity\\AsteroidsUnity\\Assets\\Plugins\\Zenject\\Source\\Internal\\Assert.cs:345
+      \r\n  at Zenject.Internal.SingletonMarkRegistry.MarkSingleton (System.Type
+      type) [0x0000e] in D:\\Data\\Development\\Projects\\Unity\\AsteroidsUnity\\Assets\\Plugins\\Zenject\\Source\\Main\\SingletonMarkRegistry.cs:23
+      \r\n  at Zenject.ProviderBindingFinalizer.RegisterProviderPerContract (Zenject.DiContainer
+      container, System.Func`3[T1,T2,TResult] providerFunc) [0x00037] in D:\\Data\\Development\\Projects\\Unity\\AsteroidsUnity\\Assets\\Plugins\\Zenject\\Source\\Binding\\Finalizers\\ProviderBindingFinalizer.cs:109
+      \r\n  at Zenject.ScopableBindingFinalizer.FinalizeBindingSelf (Zenject.DiContainer
+      container) [0x00043] in D:\\Data\\Development\\Projects\\Unity\\AsteroidsUnity\\Assets\\Plugins\\Zenject\\Source\\Binding\\Finalizers\\ScopableBindingFinalizer.cs:79
+      \r\n  at Zenject.ScopableBindingFinalizer.OnFinalizeBinding (Zenject.DiContainer
+      container) [0x00025] in D:\\Data\\Development\\Projects\\Unity\\AsteroidsUnity\\Assets\\Plugins\\Zenject\\Source\\Binding\\Finalizers\\ScopableBindingFinalizer.cs:24
+      \r\n  at Zenject.ProviderBindingFinalizer.FinalizeBinding (Zenject.DiContainer
+      container) [0x00020] in D:\\Data\\Development\\Projects\\Unity\\AsteroidsUnity\\Assets\\Plugins\\Zenject\\Source\\Binding\\Finalizers\\ProviderBindingFinalizer.cs:55"
+    m_ResultStacktrace: "--SetUp\r\n  at Zenject.ProviderBindingFinalizer.FinalizeBinding
+      (Zenject.DiContainer container) [0x00030] in D:\\Data\\Development\\Projects\\Unity\\AsteroidsUnity\\Assets\\Plugins\\Zenject\\Source\\Binding\\Finalizers\\ProviderBindingFinalizer.cs:59
+      \r\n  at Zenject.BindStatement.FinalizeBinding (Zenject.DiContainer container)
+      [0x00008] in D:\\Data\\Development\\Projects\\Unity\\AsteroidsUnity\\Assets\\Plugins\\Zenject\\Source\\Binding\\BindInfo\\BindStatement.cs:63
+      \r\n  at Zenject.DiContainer.FinalizeBinding (Zenject.BindStatement binding)
+      [0x00009] in D:\\Data\\Development\\Projects\\Unity\\AsteroidsUnity\\Assets\\Plugins\\Zenject\\Source\\Main\\DiContainer.cs:2663
+      \r\n  at Zenject.DiContainer.FlushBindings () [0x0002d] in D:\\Data\\Development\\Projects\\Unity\\AsteroidsUnity\\Assets\\Plugins\\Zenject\\Source\\Main\\DiContainer.cs:2643
+      \r\n  at Zenject.DiContainer.StartBinding (System.Boolean flush) [0x0001b]
+      in D:\\Data\\Development\\Projects\\Unity\\AsteroidsUnity\\Assets\\Plugins\\Zenject\\Source\\Main\\DiContainer.cs:2679
+      \r\n  at Zenject.DiContainer.Bind[TContract] () [0x00001] in D:\\Data\\Development\\Projects\\Unity\\AsteroidsUnity\\Assets\\Plugins\\Zenject\\Source\\Main\\DiContainer.cs:2713
+      \r\n  at PG.Asteroids.UnitTests.SimulationInitializeTests.CommonInstall ()
+      [0x00075] in D:\\Data\\Development\\Projects\\Unity\\AsteroidsUnity\\Assets\\UnitTests\\Editor\\SimulationInitializeTests.cs:46
+      \r\n  at (wrapper managed-to-native) System.Reflection.RuntimeMethodInfo.InternalInvoke(System.Reflection.RuntimeMethodInfo,object,object[],System.Exception&)\r\n 
+      at System.Reflection.RuntimeMethodInfo.Invoke (System.Object obj, System.Reflection.BindingFlags
+      invokeAttr, System.Reflection.Binder binder, System.Object[] parameters, System.Globalization.CultureInfo
+      culture) [0x0006a] in <27124aa0e30a41659b903b822b959bc7>:0 \r\n--ZenjectException\r\n 
+      at ModestTree.Assert.That (System.Boolean condition, System.String message,
+      System.Object p1) [0x0000a] in D:\\Data\\Development\\Projects\\Unity\\AsteroidsUnity\\Assets\\Plugins\\Zenject\\Source\\Internal\\Assert.cs:345
+      \r\n  at Zenject.Internal.SingletonMarkRegistry.MarkSingleton (System.Type
+      type) [0x0000e] in D:\\Data\\Development\\Projects\\Unity\\AsteroidsUnity\\Assets\\Plugins\\Zenject\\Source\\Main\\SingletonMarkRegistry.cs:23
+      \r\n  at Zenject.ProviderBindingFinalizer.RegisterProviderPerContract (Zenject.DiContainer
+      container, System.Func`3[T1,T2,TResult] providerFunc) [0x00037] in D:\\Data\\Development\\Projects\\Unity\\AsteroidsUnity\\Assets\\Plugins\\Zenject\\Source\\Binding\\Finalizers\\ProviderBindingFinalizer.cs:109
+      \r\n  at Zenject.ScopableBindingFinalizer.FinalizeBindingSelf (Zenject.DiContainer
+      container) [0x00043] in D:\\Data\\Development\\Projects\\Unity\\AsteroidsUnity\\Assets\\Plugins\\Zenject\\Source\\Binding\\Finalizers\\ScopableBindingFinalizer.cs:79
+      \r\n  at Zenject.ScopableBindingFinalizer.OnFinalizeBinding (Zenject.DiContainer
+      container) [0x00025] in D:\\Data\\Development\\Projects\\Unity\\AsteroidsUnity\\Assets\\Plugins\\Zenject\\Source\\Binding\\Finalizers\\ScopableBindingFinalizer.cs:24
+      \r\n  at Zenject.ProviderBindingFinalizer.FinalizeBinding (Zenject.DiContainer
+      container) [0x00020] in D:\\Data\\Development\\Projects\\Unity\\AsteroidsUnity\\Assets\\Plugins\\Zenject\\Source\\Binding\\Finalizers\\ProviderBindingFinalizer.cs:55 "
     m_TestListState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 03cd92ac
-      m_LastClickedID: -1399665405
-      m_ExpandedIDs: ba8a27802076b780a9cd0a838c3b7d859daf2e88f1fe3b892a6fd689d69f388ccfebdc8f30e5d1901cc3719205cb62951744ab9541b6fd9726d2ca997a9792a0c5dc25a1b40f83a68ac4e9a62cecfda865d8b8a9d3e1a6ab2b3ed9ab23b810ac03cd92ac8b1b2eadcb4051afac1b46b00158ebb09d1511b1a47a31be5d514cc681f0d7c6e881e0c7eaedb4c92ed928ca954229cac1c4ffcb7a4f13cc09fa37d4b342aad8113b2dd91e3b3cd9ddad9bd9db76b8d97d0786ddfc37dddd20fa82de599eacdf643d13e55fb13feb9ba435ec50e340ed149096ed6ce072ee37ccc9f071f0baf5377d7dfd287c46fe581af0ffc9c8b60000025d026294700497db500aa9b1200bca982f0c4f00300c4e9b0d0f7eed1c1098ab6311fb761614ee70c615905f0e18a37852188eff8719d406c61b41cf001c0031b01c8adeda20a1c1ba237cf7e7235c9fc9241c5e6226870a6128be0da0295dedc92adc1d212bb804472c65bf832d6d272d3043b45a302e094933892b8534a65aa437ce55e9374c12d9399cccd23b8abb453df0ea4e3d9b09ca3e6745c23f97bca5410289c141818fec413526ff4b1af2164cfc2c484d5efce74ff9bc6151aa565c52d5130153b534de534b1ac05459e2e255b60302587d187c599695665cbc033a5d9b35a86078988866a286af66e586f075bcad74762be2c0786a8bb47c93d9ee7eb501497fffffff7f
+      m_SelectedIDs: 84d42874
+      m_LastClickedID: 1948832900
+      m_ExpandedIDs: ba8a27802076b78094d96f82a9cd0a838c3b7d859daf2e88f1fe3b892a6fd689d69f388ccfebdc8f30e5d1901cc3719205cb62951744ab9541b6fd9726d2ca997a9792a0c5dc25a1b40f83a68ac4e9a62cecfda865d8b8a9d3e1a6ab2b3ed9ab23b810ac03cd92ac8b1b2eadcb4051afac1b46b00158ebb09d1511b1a47a31be5d514cc681f0d7c6e881e0c7eaedb4c92ed928ca954229cac1c4ffcb7a4f13cc09fa37d4b342aad8113b2dd91e3b3cd9ddad9bd9db76b8d99f715edd7d0786ddfc37dddd20fa82de599eacdf643d13e55fb13feb9ba435ec50e340ed149096ed6ce072ee37ccc9f071f0baf5377d7dfd287c46fe581af0ffc9c8b60000025d026294700497db500aa9b1200bca982f0c4f00300c4e9b0d0f7eed1c1098ab6311fb761614ee70c615905f0e18a37852188eff8719d406c61b41cf001c0031b01c488c741f8adeda20a1c1ba237cf7e7235c9fc9241c5e6226bdd3e626870a6128be0da0295dedc92adc1d212bb804472c65bf832d6d272d3043b45a302e094933892b8534a65aa437ce55e9374c12d9399cccd23b8abb453df0ea4e3d9b09ca3e6745c23f97bca5410289c141818fec413526ff4b1af2164cfc2c484d5efce74ff9bc6151aa565c52d5130153b534de534b1ac05459e2e255b60302587d187c599695665cbc033a5d9b35a86078988866a286af6680568e6a6aaeef6be586f075bcad74762be2c0786a8bb47c93d9ee7eb501497fffffff7f
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -15425,7 +15484,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 622
-    width: 1219
+    width: 1147.6666
     height: 355.6667
   m_SerializedDataModeController:
     m_DataMode: 0
@@ -15438,7 +15497,7 @@ MonoBehaviour:
     m_SaveData: []
     m_OverlaysVisible: 1
   m_SearchFilter:
-    m_NameFilter: 
+    m_NameFilter: ship
     m_ClassNames: []
     m_AssetLabels: []
     m_AssetBundleNames: []
@@ -15448,24 +15507,24 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Scenes
+    - Assets/Data
     m_Globs: []
-    m_OriginalText: 
+    m_OriginalText: ship
     m_ImportLogFlags: 0
     m_FilterByTypeIntersection: 0
   m_ViewMode: 1
   m_StartGridSize: 16
   m_LastFolders:
-  - Assets/Scenes
+  - Assets/Data
   m_LastFoldersGridSize: 16
-  m_LastProjectPath: D:\Data\Development\Projects\Unity\Asteroids
+  m_LastProjectPath: D:\Data\Development\Projects\Unity\AsteroidsUnity
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 166.33887}
-    m_SelectedIDs: 2c410000
-    m_LastClickedID: 16684
-    m_ExpandedIDs: 00000000e440000024410000204200000a8b0000168b00001e8b0000268b00003e8b0000728b0000a68b0000ae8b0000d68b0000f28b00007e8c000026a500003ea5000062a50000e4b30000e8b30000ecb3000000b4000010b400003cb4000060b40000b2d50000aa4b0100ca4b0100fe70010000ca9a3bffffff7f
+    scrollPos: {x: 0, y: 79}
+    m_SelectedIDs: 006c0000
+    m_LastClickedID: 27648
+    m_ExpandedIDs: 00000000566b0000586b00005a6b00005c6b00005e6b0000606b0000626b0000646b0000666b0000686b00006a6b00006c6b00006e6b0000706b0000726b0000746b0000766b0000786b00007a6b00007c6b00007e6b0000806b0000826b0000846b0000866b0000886b00008c6b00008e6b0000906b0000926b000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -15493,7 +15552,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000e440000024410000204200000a8b0000168b00001e8b0000268b00003e8b0000728b0000a68b0000ae8b0000d68b0000f28b00007e8c000026a500003ea5000062a50000e4b30000e8b30000ecb3000000b4000010b400003cb4000060b40000b2d50000aa4b0100ca4b0100fe70010000ca9a3bffffff7f
+    m_ExpandedIDs: 00000000566b0000586b00005a6b00005c6b00005e6b0000606b0000626b0000646b0000666b0000686b00006a6b00006c6b00006e6b0000706b0000726b0000746b0000766b0000786b00007a6b00007c6b00007e6b0000806b0000826b0000846b0000866b0000886b00008a6b00008c6b00008e6b0000906b0000926b0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -15520,22 +15579,22 @@ MonoBehaviour:
   m_ListAreaState:
     m_SelectedInstanceIDs: 
     m_LastClickedInstanceID: 0
-    m_HadKeyboardFocusLastEvent: 0
+    m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: c6230000989c0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
-      m_Name: 
-      m_OriginalName: 
+      m_Name: GamePlayInstaller
+      m_OriginalName: GamePlayInstaller
       m_EditFieldRect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 0
         height: 0
-      m_UserData: 0
+      m_UserData: 20528
       m_IsWaitingForDelay: 0
       m_IsRenaming: 0
-      m_OriginalEventType: 11
+      m_OriginalEventType: 0
       m_IsRenamingFilename: 1
       m_ClientGUIView: {fileID: 11}
     m_CreateAssetUtility:
@@ -15572,7 +15631,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 622
-    width: 1219
+    width: 1147.6666
     height: 355.6667
   m_SerializedDataModeController:
     m_DataMode: 0
@@ -16041,9 +16100,9 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 1220
+    x: 1148.6667
     y: 72.66667
-    width: 485.66675
+    width: 557
     height: 905
   m_SerializedDataModeController:
     m_DataMode: 0

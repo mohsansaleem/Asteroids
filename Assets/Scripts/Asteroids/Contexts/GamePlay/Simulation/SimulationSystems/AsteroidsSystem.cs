@@ -1,5 +1,3 @@
-using System.Runtime.InteropServices;
-using Cysharp.Threading.Tasks;
 using PG.Asteroids.Models;
 using PG.Asteroids.Models.DataModels;
 using PG.Asteroids.Models.MediatorModels;
@@ -13,7 +11,7 @@ namespace PG.Asteroids.Contexts.GamePlay
 {
     public class AsteroidsSystem: ISimulationSystem
     {
-        [Inject] private readonly Asteroid.Factory _asteroidFactory;
+        [Inject] private readonly CommandBufferMediator _commandBufferMediator;
         [Inject] private readonly StaticDataModel _staticDataModel;
         [Inject] private readonly GamePlayModel _gamePlayModel;
         [Inject] private readonly SimulationModel _simulationModel;
@@ -23,30 +21,34 @@ namespace PG.Asteroids.Contexts.GamePlay
         
         public void Initialize()
         {
-            if (_simulationModel.AsteroidsCount.Value < _staticDataModel.MetaData.AsteroidsData.StartingSpawns)
+            for (int i = _simulationModel.AsteroidsCount.Value; i < _staticDataModel.MetaData.AsteroidsData.StartingSpawns; i++)
             {
                 SpawnNext();
             }
-            _signalBus.Subscribe<RocketHitSignal>(OnRocketHit);
         }
-
-        private void OnRocketHit(RocketHitSignal signal)
+        
+        private void RequestSpawnAsteroidAt(int levelIndex, Vector3 position)
         {
-            Asteroid asteroid = signal.Asteroid;
-            _gamePlayModel.Scores.Value += _staticDataModel.MetaData.AsteroidsData.AsteroidLevels[asteroid.LevelIndex].HitPoints;
-            _simulationModel.SimulationEntitiesExpired.Add(asteroid);
-            _simulationModel.AsteroidsCount.Value--;
-
-            if (asteroid.LevelIndex > 0)
+            AsteroidLevelData level = _staticDataModel.MetaData.AsteroidsData.AsteroidLevels[levelIndex];
+            var sizePx = Random.Range(0.1f, 1.0f);
+            var speed = Random.Range(level.MinSpeed, level.MaxSpeed);
+            var scale = Mathf.Lerp(level.MinScale, level.MaxScale, sizePx);
+            var mass = Mathf.Lerp(level.MinMass, level.MaxMass, sizePx);
+            var velocity = GetRandomDirection() * speed;
+            
+            _commandBufferMediator.RequestSpawnAsteroid(levelIndex, new RigidMovingEntity.MovingEntityModel()
             {
-                SpawnAsteroidAt(0, signal.Asteroid.Transform.position);
-                SpawnAsteroidAt(0, signal.Asteroid.Transform.position);
-            }
+                Scale = scale,
+                Mass = mass,
+                Position = position,
+                Velocity = velocity,
+                MaxSpeed =  level.MaxSpeed,
+            });
         }
 
         public void Tick(float deltaTime)
         {
-            if (_simulationModel.AsteroidsCount.Value < _staticDataModel.MetaData.AsteroidsData.MaxSpawns)
+            for (int i = _simulationModel.AsteroidsCount.Value; i < _staticDataModel.MetaData.AsteroidsData.MaxSpawns; i++)
             {
                 SpawnNext();
             }
@@ -56,10 +58,10 @@ namespace PG.Asteroids.Contexts.GamePlay
         {
             AsteroidsData settings = _staticDataModel.MetaData.AsteroidsData;
             int levelIndex = Random.Range(0, settings.AsteroidLevels.Length);
-            SpawnAsteroid(levelIndex);
+            RequestSpawnAsteroid(levelIndex);
         }
 
-        private void SpawnAsteroid(int levelIndex)
+        private void RequestSpawnAsteroid(int levelIndex)
         {
             AsteroidLevelData level = _staticDataModel.MetaData.AsteroidsData.AsteroidLevels[levelIndex];
             var sizePx = Random.Range(0.1f, 1.0f);
@@ -68,25 +70,8 @@ namespace PG.Asteroids.Contexts.GamePlay
             var mass = Mathf.Lerp(level.MinMass, level.MaxMass, sizePx);
             var position = GetRandomStartPosition(scale);
             var velocity = GetRandomDirection() * speed;
-            SpawnAsteroidInternal(levelIndex, position, scale, mass, velocity, level);
-        }
-        
-        private void SpawnAsteroidAt(int levelIndex, Vector3 position)
-        {
-            AsteroidLevelData level = _staticDataModel.MetaData.AsteroidsData.AsteroidLevels[levelIndex];
-            var sizePx = Random.Range(0.1f, 1.0f);
-            var speed = Random.Range(level.MinSpeed, level.MaxSpeed);
-            var scale = Mathf.Lerp(level.MinScale, level.MaxScale, sizePx);
-            var mass = Mathf.Lerp(level.MinMass, level.MaxMass, sizePx);
-            var velocity = GetRandomDirection() * speed;
             
-            SpawnAsteroidInternal(levelIndex, position, scale, mass, velocity, level);
-        }
-
-        private void SpawnAsteroidInternal(int levelIndex, Vector3 position, float scale, float mass, Vector3 velocity,
-            AsteroidLevelData level)
-        {
-            var asteroid = _asteroidFactory.Create(levelIndex, new RigidMovingEntity.MovingEntityModel()
+            _commandBufferMediator.RequestSpawnAsteroid(levelIndex, new RigidMovingEntity.MovingEntityModel()
             {
                 Scale = scale,
                 Mass = mass,
@@ -95,8 +80,6 @@ namespace PG.Asteroids.Contexts.GamePlay
                 MaxSpeed =  level.MaxSpeed,
             });
             
-            _simulationModel.AsteroidsCount.Value++;
-            _simulationModel.SimulationEntitiesQueue.Add(asteroid);
         }
 
         private Vector3 GetRandomDirection()
@@ -142,7 +125,7 @@ namespace PG.Asteroids.Contexts.GamePlay
             Count
         }
 
-        public void FixedTick(float deltaTime)
+        public void FixedTick(float fixedDeltaTime)
         {
             
         }
@@ -154,7 +137,6 @@ namespace PG.Asteroids.Contexts.GamePlay
 
         public void Dispose()
         {
-            _signalBus.Unsubscribe<RocketHitSignal>(OnRocketHit);
         }
     }
 }
