@@ -70,6 +70,8 @@ public class SimulationTests : ZenjectUnitTestFixture
         var levelHelper = new LevelHelper(camera);
         Container.BindInstance<LevelHelper>(levelHelper).AsSingle();
         
+        BindCommandBuffer();
+
         AssetsLoader assetsLoader = Container.Resolve<AssetsLoader>();
         
         GameObject prefab = assetsLoader.Load<GameObject>("Ship");
@@ -80,5 +82,19 @@ public class SimulationTests : ZenjectUnitTestFixture
         PlayerShip.Factory factory = Container.Resolve<PlayerShip.Factory>();
         var asteroid = factory.Create();
         Assert.IsNotNull(asteroid);
+    }
+
+    private void BindCommandBuffer()
+    {
+        Container.Bind<CommandBuffer>().AsSingle();
+        
+        Container.BindFactory<int, RigidMovingEntity.MovingEntityModel, SpawnAsteroidsCommand, SpawnAsteroidsCommand.CommandFactory>() .FromNew();
+        Container.BindFactory<int, ShipCrashedCommand, ShipCrashedCommand.CommandFactory>() .FromNew();
+        Container.BindFactory<Vector3, Vector3, Quaternion, SpawnRocketCommand, SpawnRocketCommand.CommandFactory>().FromNew();
+        Container.BindFactory<int, AsteroidHitCommand, AsteroidHitCommand.CommandFactory>().FromNew();
+        Container.BindFactory<float, Vector3, SpawnExplosionCommand, SpawnExplosionCommand.CommandFactory>().FromNew();
+        Container.BindFactory<int, IMemoryPool, DestroyEntityCommand, DestroyEntityCommand.CommandFactory>() .FromNew();
+        
+        Container.BindInterfacesAndSelfTo<CommandBufferMediator>().AsSingle();
     }
 }

@@ -36,7 +36,7 @@ namespace PG.Asteroids.Contexts.GamePlay
                 Scale = 1,
                 Velocity = Vector3.zero,
                 Position = Vector3.zero,
-                MaxSpeed = _staticDataModel.MetaData.ShipData.ShipMaxMovementSpeed
+                MaxSpeed = _staticDataModel.MetaData?.ShipData.ShipMaxMovementSpeed ?? 0
             };
             base.Initialize(settings);
         }
@@ -81,7 +81,7 @@ namespace PG.Asteroids.Contexts.GamePlay
 
         public void AddShield()
         {
-            _shieldDuration = _staticDataModel.MetaData.ShipData.ShipShieldDuration;
+            _shieldDuration = _staticDataModel.MetaData?.ShipData.ShipShieldDuration ?? 0;
             _sheildGameObject.SetActive(true);
         }
         
