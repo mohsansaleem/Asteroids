@@ -42,8 +42,13 @@ namespace PG.Asteroids.Contexts.GamePlay
             _commandPool = null;
         }
 
-        public class CommandFactory : PlaceholderFactory<float, Vector3, SpawnExplosionCommand>
+        public class CommandFactory : PlaceholderFactory<float, Vector3, SpawnExplosionCommand>, ICommandFactory<SpawnExplosionCommand>
         {
+            public SpawnExplosionCommand Create(params object[] args)
+            {
+                return base.Create(args[0] is float explosionTime ? explosionTime : 0f,
+                    args[1] is Vector3 position ? position : Vector3.zero);
+            }
         }
         
         public class CommandPool : MemoryPool<float, Vector3, IMemoryPool, SpawnExplosionCommand>

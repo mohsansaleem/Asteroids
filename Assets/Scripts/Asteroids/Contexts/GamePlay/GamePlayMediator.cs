@@ -1,4 +1,5 @@
 ﻿using System;
+using Cysharp.Threading.Tasks;
 using PG.Asteroids.Models;
 using PG.Asteroids.Models.MediatorModels;
 using PG.Asteroids.Models.RemoteDataModels;
@@ -51,7 +52,7 @@ namespace PG.Asteroids.Contexts.GamePlay
             _view.LivesText.text = $"Lives: {lives}";
             if (lives == 0)
             {
-                GoToState<GamePlayStateEndGame>();
+                GoToState<GamePlayStateEndGame>().Forget();
             }
         }
         

@@ -45,8 +45,13 @@ namespace PG.Asteroids.Contexts.GamePlay
             _commandPool = null;
         }
 
-        public class CommandFactory : PlaceholderFactory<int, RigidMovingEntity.MovingEntityModel, SpawnAsteroidsCommand>
+        public class CommandFactory : PlaceholderFactory<int, RigidMovingEntity.MovingEntityModel, SpawnAsteroidsCommand>, ICommandFactory<SpawnAsteroidsCommand>
         {
+            public SpawnAsteroidsCommand Create(params object[] args)
+            {
+                return base.Create(args[0] is int levelIndex ? levelIndex : -1,
+                    args[1] as RigidMovingEntity.MovingEntityModel);
+            }
         }
         
         public class CommandPool : MemoryPool<int, RigidMovingEntity.MovingEntityModel, IMemoryPool, SpawnAsteroidsCommand>

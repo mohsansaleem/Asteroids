@@ -42,8 +42,6 @@ namespace PG.Core.Contexts.StateManagement
 
         private void BindCommandBuffer()
         {
-            Container.Bind<CommandBuffer>().AsSingle();
-            
             // Bind command pools
             Container.BindFactory<int, RigidMovingEntity.MovingEntityModel, SpawnAsteroidsCommand, SpawnAsteroidsCommand.CommandFactory>()
                 .FromPoolableMemoryPool(poolBinder => poolBinder
@@ -69,7 +67,17 @@ namespace PG.Core.Contexts.StateManagement
                 .FromPoolableMemoryPool(poolBinder => poolBinder
                     .WithInitialSize(7)
                     .FromNew());
-            
+
+            // Bind the generic ICommandFactory<T> interfaces to the already-existing factories
+            // Use To().FromResolve() to alias the existing factory instances
+            Container.Bind<ICommandFactory<SpawnAsteroidsCommand>>().To<SpawnAsteroidsCommand.CommandFactory>().FromResolve();
+            Container.Bind<ICommandFactory<ShipCrashedCommand>>().To<ShipCrashedCommand.CommandFactory>().FromResolve();
+            Container.Bind<ICommandFactory<SpawnRocketCommand>>().To<SpawnRocketCommand.CommandFactory>().FromResolve();
+            Container.Bind<ICommandFactory<AsteroidHitCommand>>().To<AsteroidHitCommand.CommandFactory>().FromResolve();
+            Container.Bind<ICommandFactory<SpawnExplosionCommand>>().To<SpawnExplosionCommand.CommandFactory>().FromResolve();
+            Container.Bind<ICommandFactory<DestroyEntityCommand>>().To<DestroyEntityCommand.CommandFactory>().FromResolve();
+
+            Container.Bind<CommandBuffer>().AsSingle();
             Container.BindInterfacesAndSelfTo<CommandBufferMediator>().AsSingle();
         }
         

@@ -33,8 +33,8 @@ namespace PG.Asteroids.Contexts.GamePlay
 
             if (inputState.IsMovingUp && inputState.IsSlowingDown)
             {
-                inputState.IsRotatingLeft = false;
-                inputState.IsRotatingRight = true;
+                inputState.IsMovingUp = false;
+                inputState.IsSlowingDown = false;
             }
 
             inputState.IsFiring = Input.GetKey(KeyCode.F) || Input.GetKey(KeyCode.Space) || Input.GetMouseButton(0);

@@ -20,7 +20,7 @@ namespace PG.Asteroids.Contexts.GamePlay
 
         public void Execute()
         {
-            if (_simulationModel.Masks[_id] != EntityMask.None)
+            if (_simulationModel.IsValidEntity(_id))
             {
                 var view = _simulationModel.Views[_id];
                 _simulationModel.Unregister(_id);
@@ -38,8 +38,12 @@ namespace PG.Asteroids.Contexts.GamePlay
             _commandPool = null;
         }
 
-        public class CommandFactory : PlaceholderFactory<int, IMemoryPool, DestroyEntityCommand>
+        public class CommandFactory : PlaceholderFactory<int, IMemoryPool, DestroyEntityCommand>, ICommandFactory<DestroyEntityCommand>
         {
+            public DestroyEntityCommand Create(params object[] args)
+            {
+                return base.Create(args[0] is int id ? id : -1, args[1] is IMemoryPool entityPool ? entityPool : null);
+            }
         }
         
         public class CommandPool : MemoryPool<int, IMemoryPool, IMemoryPool, DestroyEntityCommand>

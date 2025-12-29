@@ -27,11 +27,11 @@ namespace PG.Asteroids.Contexts.GamePlay
 
         public void Execute()
         {
-            if (_simulationModel.Masks[_id] != EntityMask.None)
+            if (_simulationModel.IsValidEntity(_id))
             {
                 Asteroid asteroid = _simulationModel.Views[_id] as Asteroid;
                 _gamePlayModel.Scores.Value += _staticDataModel.MetaData.AsteroidsData.AsteroidLevels[asteroid.LevelIndex].HitPoints;
-                
+
                 _commandBufferMediator.RequestDestroy(asteroid.EntityId, asteroid.Pool);
                 _simulationModel.AsteroidsCount.Value--;
 
@@ -77,8 +77,12 @@ namespace PG.Asteroids.Contexts.GamePlay
             _commandPool = null;
         }
 
-        public class CommandFactory : PlaceholderFactory<int, AsteroidHitCommand>
+        public class CommandFactory : PlaceholderFactory<int, AsteroidHitCommand>, ICommandFactory<AsteroidHitCommand>
         {
+            public AsteroidHitCommand Create(params object[] args)
+            {
+                return base.Create(args[0] is int id ? id : -1);
+            }
         }
         
         public class CommandPool : MemoryPool<int, IMemoryPool, AsteroidHitCommand>

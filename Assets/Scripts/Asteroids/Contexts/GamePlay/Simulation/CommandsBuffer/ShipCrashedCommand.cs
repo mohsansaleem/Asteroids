@@ -25,11 +25,11 @@ namespace PG.Asteroids.Contexts.GamePlay
 
         public void Execute()
         {
-            if (_simulationModel.Masks[_id] != EntityMask.None)
+            if (_simulationModel.IsValidEntity(_id))
             {
                 ShipData shipData = _staticDataModel.MetaData.ShipData;
                 _audioPlayer.Play(shipData.DeathSound, shipData.DeathVolume);
-            
+
                 _gamePlayModel.Lives.Value--;
                 if (_gamePlayModel.Lives.Value > 0)
                 {
@@ -47,8 +47,12 @@ namespace PG.Asteroids.Contexts.GamePlay
             _commandPool = null;
         }
 
-        public class CommandFactory : PlaceholderFactory<int, ShipCrashedCommand>
+        public class CommandFactory : PlaceholderFactory<int, ShipCrashedCommand>, ICommandFactory<ShipCrashedCommand>
         {
+            public ShipCrashedCommand Create(params object[] args)
+            {
+                return base.Create(args[0] is int id ? id : -1);
+            }
         }
         
         public class CommandPool : MemoryPool<int, IMemoryPool, ShipCrashedCommand>

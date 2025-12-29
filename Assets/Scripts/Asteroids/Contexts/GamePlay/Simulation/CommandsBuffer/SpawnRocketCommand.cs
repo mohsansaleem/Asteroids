@@ -51,8 +51,15 @@ namespace PG.Asteroids.Contexts.GamePlay
             _commandPool = null;
         }
 
-        public class CommandFactory : PlaceholderFactory<Vector3, Vector3, Quaternion, SpawnRocketCommand>
+        public class CommandFactory : PlaceholderFactory<Vector3, Vector3, Quaternion, SpawnRocketCommand>, ICommandFactory<SpawnRocketCommand>
         {
+            public SpawnRocketCommand Create(params object[] args)
+            {
+                return base.Create(
+                    args[0] is Vector3 position ? position : Vector3.zero,
+                    args[1] is Vector3 moveDirection ? moveDirection : Vector3.zero,
+                    args[2] is Quaternion rotation ? rotation : Quaternion.identity);
+            }
         }
         
         public class CommandPool : MemoryPool<Vector3, Vector3, Quaternion, IMemoryPool, SpawnRocketCommand>
