@@ -51,8 +51,9 @@ namespace PG.Asteroids.Contexts.GamePlay
                 var asteroid = other.GetComponent<Asteroid>();
                 if (asteroid != null)
                 {
+                    Debug.Log($"[PlayerShip] Collision with asteroid at {Position}");
                     _commandBufferMediator.RequestSpawnExplosion(_staticDataModel.MetaData.ExplosionSettings.ExplosionTimeout, Position);
-                    _commandBufferMediator.RequestShipCrash(EntityId);
+                    _commandBufferMediator.RequestShipCrash(0); // Ship crash still uses int ID for now
                 }
             }
         }

@@ -1,47 +1,35 @@
-using PG.Asteroids.Models.MediatorModels;
-using UnityEngine;
 using Zenject;
 
 namespace PG.Asteroids.Contexts.GamePlay
 {
+    /// <summary>
+    /// MovementSystem is no longer needed - entities handle their own movement through Unity's Update/FixedUpdate
+    /// Kept for compatibility with existing installer bindings
+    /// </summary>
     public class MovementSystem: ISimulationSystem
     {
-        [Inject] private SimulationModel _simulationModel;
-        
         public void Initialize()
         {
         }
 
         public void Tick(float deltaTime)
         {
-            for (int i = 0; i < SimulationModel.MAX_ENTITIES; i++)
-            {
-                if ((_simulationModel.Masks[i] & EntityMask.Movable) != 0)
-                {
-                    _simulationModel.Views[i].Tick(deltaTime);
-                }
-            }
+            // Entities now handle their own Tick through MonoBehaviour Update()
         }
 
         public void FixedTick(float fixedDeltaTime)
         {
-            for (int i = 0; i < SimulationModel.MAX_ENTITIES; i++)
-            {
-                if ((_simulationModel.Masks[i] & EntityMask.Movable) != 0)
-                {
-                    _simulationModel.Views[i].FixedTick(fixedDeltaTime);
-                }
-            }
+            // Entities now handle their own FixedTick through MonoBehaviour FixedUpdate()
         }
 
         public void Reset()
         {
-            
+
         }
-        
+
         public void Dispose()
         {
-            
+
         }
     }
 }

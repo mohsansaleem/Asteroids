@@ -7,8 +7,18 @@ namespace PG.Asteroids.Contexts.GamePlay
 {
     public abstract class SimulationEntity : MonoBehaviour, IInitializable
     {
-        public int EntityId { get; set; }
         public IMemoryPool Pool { get; protected set; }
+
+        // Unity lifecycle methods - these call our custom Tick/FixedTick
+        private void Update()
+        {
+            Tick(Time.deltaTime);
+        }
+
+        private void FixedUpdate()
+        {
+            FixedTick(Time.fixedDeltaTime);
+        }
 
         public virtual void FixedTick(float deltaTime)
         {

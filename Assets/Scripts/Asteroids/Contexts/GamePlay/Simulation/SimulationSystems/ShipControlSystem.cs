@@ -24,9 +24,6 @@ namespace PG.Asteroids.Contexts.GamePlay
 
         public void Initialize()
         {
-            int entityId = _simulationModel.Register(_player, EntityMask.Movable | EntityMask.PlayerShip);
-            _player.EntityId = entityId;
-            
             _player.ApplyDrag();
         }
 

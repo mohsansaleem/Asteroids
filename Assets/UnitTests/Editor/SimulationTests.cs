@@ -6,6 +6,7 @@ using PG.Asteroids.Models;
 using PG.Asteroids.Models.MediatorModels;
 using PG.Core;
 using Zenject.Asteroids;
+using Asteroid = PG.Asteroids.Contexts.GamePlay.Asteroid;
 
 [TestFixture]
 public class SimulationTests : ZenjectUnitTestFixture
@@ -23,11 +24,25 @@ public class SimulationTests : ZenjectUnitTestFixture
     {
         Container.Bind<SimulationSystemFactory>().AsSingle();
         Container.Bind<SimulationModel>().AsSingle();
-        
-        // Bind multiple different Simulation systems
-        Container.Bind<ISimulationSystem>().To<MovementSystem>().AsSingle();
+        Container.Bind<GamePlayModel>().AsSingle();
+        Container.Bind<StaticDataModel>().AsSingle();
+        SignalBusInstaller.Install(Container);
+
+        // Setup camera and level helper for AsteroidsSystem
+        GameObject obj = new GameObject();
+        Camera camera = obj.AddComponent<Camera>();
+        obj.tag = "MainCamera";
+        Container.BindInstances(camera);
+        var levelHelper = new LevelHelper(camera);
+        Container.BindInstance<LevelHelper>(levelHelper).AsSingle();
+
+        // Bind command buffer for AsteroidsSystem
+        BindCommandBuffer();
+
+        // Bind simulation systems
         Container.Bind<ISimulationSystem>().To<PlayerInputSystem>().AsSingle();
-        
+        Container.Bind<ISimulationSystem>().To<AsteroidsSystem>().AsSingle();
+
         var list = Container.ResolveAll<ISimulationSystem>();
         Assert.IsTrue(list?.Count == 2);
     }
@@ -87,14 +102,15 @@ public class SimulationTests : ZenjectUnitTestFixture
     private void BindCommandBuffer()
     {
         Container.Bind<CommandBuffer>().AsSingle();
-        
-        Container.BindFactory<int, RigidMovingEntity.MovingEntityModel, SpawnAsteroidsCommand, SpawnAsteroidsCommand.CommandFactory>() .FromNew();
-        Container.BindFactory<int, ShipCrashedCommand, ShipCrashedCommand.CommandFactory>() .FromNew();
+
+        // Updated command factory bindings to match new reference-based signatures
+        Container.BindFactory<int, RigidMovingEntity.MovingEntityModel, SpawnAsteroidsCommand, SpawnAsteroidsCommand.CommandFactory>().FromNew();
+        Container.BindFactory<int, ShipCrashedCommand, ShipCrashedCommand.CommandFactory>().FromNew();
         Container.BindFactory<Vector3, Vector3, Quaternion, SpawnRocketCommand, SpawnRocketCommand.CommandFactory>().FromNew();
-        Container.BindFactory<int, AsteroidHitCommand, AsteroidHitCommand.CommandFactory>().FromNew();
+        Container.BindFactory<Asteroid, AsteroidHitCommand, AsteroidHitCommand.CommandFactory>().FromNew();
         Container.BindFactory<float, Vector3, SpawnExplosionCommand, SpawnExplosionCommand.CommandFactory>().FromNew();
-        Container.BindFactory<int, IMemoryPool, DestroyEntityCommand, DestroyEntityCommand.CommandFactory>() .FromNew();
-        
+        Container.BindFactory<SimulationEntity, DestroyEntityCommand, DestroyEntityCommand.CommandFactory>().FromNew();
+
         Container.BindInterfacesAndSelfTo<CommandBufferMediator>().AsSingle();
     }
 }

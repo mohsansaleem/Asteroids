@@ -1,30 +1,27 @@
-using PG.Asteroids.Models.MediatorModels;
 using Zenject;
 
 namespace PG.Asteroids.Contexts.GamePlay
 {
-    public class DestroyEntityCommand : IEntityCommand, IPoolable<int, IMemoryPool, IMemoryPool>
+    public class DestroyEntityCommand : IEntityCommand, IPoolable<SimulationEntity, IMemoryPool>
     {
-        [Inject] private readonly SimulationModel _simulationModel;
-        
-        private int _id;
-        private IMemoryPool _entityPool;
+        private SimulationEntity _entity;
         private IMemoryPool _commandPool;
 
-        public void OnSpawned(int id, IMemoryPool entityPool, IMemoryPool commandPool)
+        public void OnSpawned(SimulationEntity entity, IMemoryPool commandPool)
         {
-            _id = id;
-            _entityPool = entityPool;
+            _entity = entity;
             _commandPool = commandPool;
         }
 
         public void Execute()
         {
-            if (_simulationModel.IsValidEntity(_id))
+            if (_entity != null && _entity.Pool != null)
             {
-                var view = _simulationModel.Views[_id];
-                _simulationModel.Unregister(_id);
-                _entityPool.Despawn(view);
+                _entity.Pool.Despawn(_entity);
+            }
+            else if (_entity != null)
+            {
+                UnityEngine.Object.Destroy(_entity.gameObject);
             }
 
             // Return this command object to its own pool!
@@ -33,20 +30,19 @@ namespace PG.Asteroids.Contexts.GamePlay
 
         public void OnDespawned()
         {
-            _id = -1;
-            _entityPool = null;
+            _entity = null;
             _commandPool = null;
         }
 
-        public class CommandFactory : PlaceholderFactory<int, IMemoryPool, DestroyEntityCommand>, ICommandFactory<DestroyEntityCommand>
+        public class CommandFactory : PlaceholderFactory<SimulationEntity, DestroyEntityCommand>, ICommandFactory<DestroyEntityCommand>
         {
             public DestroyEntityCommand Create(params object[] args)
             {
-                return base.Create(args[0] is int id ? id : -1, args[1] is IMemoryPool entityPool ? entityPool : null);
+                return base.Create(args[0] as SimulationEntity);
             }
         }
-        
-        public class CommandPool : MemoryPool<int, IMemoryPool, IMemoryPool, DestroyEntityCommand>
+
+        public class CommandPool : MemoryPool<SimulationEntity, IMemoryPool, DestroyEntityCommand>
         {
         }
     }

@@ -25,14 +25,9 @@ namespace PG.Asteroids.Contexts.GamePlay
         public void Execute()
         {
             var asteroid = _asteroidFactory.Create(_levelIndex, _entityModel);
-            
+
             _simulationModel.AsteroidsCount.Value++;
-            int entityId = _simulationModel.Register(asteroid, EntityMask.Movable | EntityMask.Explosive);
-            
-            if (entityId != -1)
-                asteroid.EntityId = entityId;
-            else
-                Debug.LogError($"Unable to register asteroid entity in simulation model.");
+            Debug.Log($"[SpawnAsteroidsCommand] Spawned asteroid level {_levelIndex} at {_entityModel.Position}. Count: {_simulationModel.AsteroidsCount.Value} (was {_simulationModel.AsteroidsCount.Value - 1})");
 
             // Return this command object to its own pool!
             _commandPool.Despawn(this);

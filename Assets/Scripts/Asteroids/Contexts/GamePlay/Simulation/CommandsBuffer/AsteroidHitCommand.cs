@@ -7,7 +7,7 @@ using Zenject.SpaceFighter;
 
 namespace PG.Asteroids.Contexts.GamePlay
 {
-    public class AsteroidHitCommand : IEntityCommand, IPoolable<int, IMemoryPool>
+    public class AsteroidHitCommand : IEntityCommand, IPoolable<Asteroid, IMemoryPool>
     {
         [Inject] private readonly SimulationModel _simulationModel;
         [Inject] private readonly GamePlayModel _gamePlayModel;
@@ -15,37 +15,45 @@ namespace PG.Asteroids.Contexts.GamePlay
         [Inject] private readonly AudioPlayer _audioPlayer;
         [Inject] private readonly PlayerShip _player;
         [Inject] private readonly CommandBufferMediator _commandBufferMediator;
-        
-        private int _id;
+
+        private Asteroid _asteroid;
         private IMemoryPool _commandPool;
 
-        public void OnSpawned(int id, IMemoryPool commandPool)
+        public void OnSpawned(Asteroid asteroid, IMemoryPool commandPool)
         {
-            _id = id;
+            _asteroid = asteroid;
             _commandPool = commandPool;
         }
 
         public void Execute()
         {
-            if (_simulationModel.IsValidEntity(_id))
+            if (_asteroid != null)
             {
-                Asteroid asteroid = _simulationModel.Views[_id] as Asteroid;
-                _gamePlayModel.Scores.Value += _staticDataModel.MetaData.AsteroidsData.AsteroidLevels[asteroid.LevelIndex].HitPoints;
+                _gamePlayModel.Scores.Value += _staticDataModel.MetaData.AsteroidsData.AsteroidLevels[_asteroid.LevelIndex].HitPoints;
 
-                _commandBufferMediator.RequestDestroy(asteroid.EntityId, asteroid.Pool);
+                // Despawn the asteroid
+                if (_asteroid.Pool != null)
+                    _asteroid.Pool.Despawn(_asteroid);
+
                 _simulationModel.AsteroidsCount.Value--;
+                Debug.Log($"[AsteroidHitCommand] Asteroid destroyed. Count: {_simulationModel.AsteroidsCount.Value} (was {_simulationModel.AsteroidsCount.Value + 1})");
 
-                if (asteroid.LevelIndex > 0)
+                // BUG FIX: Spawn smaller asteroids when large/medium asteroids are destroyed
+                // Level 0 = Small, Level 1 = Medium, Level 2 = Large (reverse order!)
+                // Large (2) -> spawn 2 Medium (1), Medium (1) -> spawn 2 Small (0), Small (0) -> don't spawn
+                if (_asteroid.LevelIndex > 0)
                 {
-                    RequestSpawnAsteroidAt(0, asteroid.transform.position);
-                    RequestSpawnAsteroidAt(0, asteroid.transform.position);
+                    int nextLevel = _asteroid.LevelIndex - 1; // Go DOWN in level (bigger to smaller)
+                    RequestSpawnAsteroidAt(nextLevel, _asteroid.transform.position);
+                    RequestSpawnAsteroidAt(nextLevel, _asteroid.transform.position);
+                    Debug.Log($"[AsteroidHitCommand] Spawning 2 asteroids at level {nextLevel} (from level {_asteroid.LevelIndex})");
                 }
             }
 
             // Return this command object to its own pool!
             _commandPool.Despawn(this);
         }
-        
+
         private void RequestSpawnAsteroidAt(int levelIndex, Vector3 position)
         {
             AsteroidLevelData level = _staticDataModel.MetaData.AsteroidsData.AsteroidLevels[levelIndex];
@@ -54,7 +62,7 @@ namespace PG.Asteroids.Contexts.GamePlay
             var scale = Mathf.Lerp(level.MinScale, level.MaxScale, sizePx);
             var mass = Mathf.Lerp(level.MinMass, level.MaxMass, sizePx);
             var velocity = GetRandomDirection() * speed;
-            
+
             _commandBufferMediator.RequestSpawnAsteroid(levelIndex, new RigidMovingEntity.MovingEntityModel()
             {
                 Scale = scale,
@@ -64,7 +72,7 @@ namespace PG.Asteroids.Contexts.GamePlay
                 MaxSpeed =  level.MaxSpeed,
             });
         }
-        
+
         private Vector3 GetRandomDirection()
         {
             var theta = Random.Range(0, Mathf.PI * 2.0f);
@@ -73,19 +81,19 @@ namespace PG.Asteroids.Contexts.GamePlay
 
         public void OnDespawned()
         {
-            _id = -1;
+            _asteroid = null;
             _commandPool = null;
         }
 
-        public class CommandFactory : PlaceholderFactory<int, AsteroidHitCommand>, ICommandFactory<AsteroidHitCommand>
+        public class CommandFactory : PlaceholderFactory<Asteroid, AsteroidHitCommand>, ICommandFactory<AsteroidHitCommand>
         {
             public AsteroidHitCommand Create(params object[] args)
             {
-                return base.Create(args[0] is int id ? id : -1);
+                return base.Create(args[0] as Asteroid);
             }
         }
-        
-        public class CommandPool : MemoryPool<int, IMemoryPool, AsteroidHitCommand>
+
+        public class CommandPool : MemoryPool<Asteroid, IMemoryPool, AsteroidHitCommand>
         {
         }
     }

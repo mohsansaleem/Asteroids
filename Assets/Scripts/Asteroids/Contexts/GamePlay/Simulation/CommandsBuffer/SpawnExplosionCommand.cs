@@ -24,13 +24,8 @@ namespace PG.Asteroids.Contexts.GamePlay
         public void Execute()
         {
             var explosion = _asteroidFactory.Create(_explosionTime, _position);
-            
-            _simulationModel.AsteroidsCount.Value++;
-            int entityId = _simulationModel.Register(explosion, EntityMask.Movable | EntityMask.Explosive);
-            if (entityId != -1)
-                explosion.EntityId = entityId;
-            else
-                Debug.LogError($"Unable to register explosion entity in simulation model.");
+
+            Debug.Log($"[SpawnExplosionCommand] Spawned explosion at {_position}");
 
             // Return this command object to its own pool!
             _commandPool.Despawn(this);

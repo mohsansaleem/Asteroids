@@ -34,12 +34,6 @@ namespace PG.Asteroids.Contexts.GamePlay
 
             rocket.transform.position = _position;
             rocket.transform.rotation = _rotation;
-            
-            int entityId = _simulationModel.Register(rocket, EntityMask.Movable | EntityMask.Explosive);
-            if (entityId != -1)
-                rocket.EntityId = entityId;
-            else
-                Debug.LogError($"Unable to register rocket entity in simulation model.");
 
             // Return this command object to its own pool!
             _commandPool.Despawn(this);

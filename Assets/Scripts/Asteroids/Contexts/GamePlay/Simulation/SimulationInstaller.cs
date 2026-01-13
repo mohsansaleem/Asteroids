@@ -31,13 +31,11 @@ namespace PG.Core.Contexts.StateManagement
         private void BindSimulationSystems()
         {
             Container.Bind<SimulationSystemFactory>().AsSingle();
-            
-            // Bind multiple different Simulation systems
+
+            // Bind simulation systems
             Container.Bind<ISimulationSystem>().To<AsteroidsSystem>().AsSingle();
             Container.Bind<ISimulationSystem>().To<PlayerInputSystem>().AsSingle();
             Container.Bind<ISimulationSystem>().To<ShipControlSystem>().AsSingle();
-            Container.Bind<ISimulationSystem>().To<MovementSystem>().AsSingle();
-            Container.Bind<ISimulationSystem>().To<ExplosionSystem>().AsSingle();
         }
 
         private void BindCommandBuffer()
@@ -55,7 +53,7 @@ namespace PG.Core.Contexts.StateManagement
                  .FromPoolableMemoryPool(poolBinder => poolBinder
                     .WithInitialSize(10)
                     .FromNew());
-             Container.BindFactory<int, AsteroidHitCommand, AsteroidHitCommand.CommandFactory>()
+             Container.BindFactory<Asteroid, AsteroidHitCommand, AsteroidHitCommand.CommandFactory>()
                  .FromPoolableMemoryPool(poolBinder => poolBinder
                      .WithInitialSize(5)
                      .FromNew());
@@ -63,7 +61,7 @@ namespace PG.Core.Contexts.StateManagement
                 .FromPoolableMemoryPool(poolBinder => poolBinder
                     .WithInitialSize(5)
                     .FromNew());
-            Container.BindFactory<int, IMemoryPool, DestroyEntityCommand, DestroyEntityCommand.CommandFactory>()
+            Container.BindFactory<SimulationEntity, DestroyEntityCommand, DestroyEntityCommand.CommandFactory>()
                 .FromPoolableMemoryPool(poolBinder => poolBinder
                     .WithInitialSize(7)
                     .FromNew());

@@ -19,14 +19,22 @@ namespace PG.Asteroids.Contexts.GamePlay
         
         public void OnTriggerEnter(Collider other)
         {
+            Debug.Log($"[Rocket] OnTriggerEnter with {other.gameObject.name}, tag: {other.tag}");
+
             if (other.CompareTag("asteroid"))
             {
                 var asteroid = other.GetComponent<Asteroid>();
                 if (asteroid != null)
                 {
+                    Debug.Log($"[Rocket] HIT ASTEROID at {Position}! Requesting explosion and asteroid hit");
+
                     _commandBufferMediator.RequestSpawnExplosion(_staticDataModel.MetaData.ExplosionSettings.ExplosionTimeout, Position);
-                    _commandBufferMediator.RequestDestroy(EntityId, Pool);
-                    _commandBufferMediator.RequestAsteroidHit(asteroid.EntityId);
+                    _commandBufferMediator.RequestDestroy(this);
+                    _commandBufferMediator.RequestAsteroidHit(asteroid);
+                }
+                else
+                {
+                    Debug.LogWarning($"[Rocket] Collider has 'asteroid' tag but no Asteroid component!");
                 }
             }
         }
@@ -37,7 +45,7 @@ namespace PG.Asteroids.Contexts.GamePlay
 
             if (Time.realtimeSinceStartup - _startTime > _lifeTime)
             {
-                _commandBufferMediator.RequestDestroy(EntityId, Pool);
+                _commandBufferMediator.RequestDestroy(this);
             }
         }
 

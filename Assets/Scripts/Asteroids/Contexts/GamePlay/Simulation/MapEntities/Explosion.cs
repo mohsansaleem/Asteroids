@@ -29,7 +29,7 @@ namespace PG.Asteroids.Contexts.GamePlay
             base.Tick(deltaTime);
             if (Time.realtimeSinceStartup - _startTime > _lifeTime)
             {
-                _commandBufferMediator.RequestDestroy(EntityId, Pool);
+                _commandBufferMediator.RequestDestroy(this);
             }
         }
 

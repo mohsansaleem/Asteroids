@@ -32,9 +32,9 @@ namespace PG.Asteroids.Contexts.GamePlay
             _buffer.Enqueue<SpawnRocketCommand>(position, moveDirection, rotation);
         }
 
-        public void RequestAsteroidHit(int asteroidId)
+        public void RequestAsteroidHit(Asteroid asteroid)
         {
-            _buffer.Enqueue<AsteroidHitCommand>(asteroidId);
+            _buffer.Enqueue<AsteroidHitCommand>(asteroid);
         }
 
         public void RequestSpawnExplosion(float explosionTime, Vector3 position)
@@ -42,9 +42,9 @@ namespace PG.Asteroids.Contexts.GamePlay
             _buffer.Enqueue<SpawnExplosionCommand>(explosionTime, position);
         }
 
-        public void RequestDestroy(int id, IMemoryPool entityPool)
+        public void RequestDestroy(SimulationEntity entity)
         {
-            _buffer.Enqueue<DestroyEntityCommand>(id, entityPool);
+            _buffer.Enqueue<DestroyEntityCommand>(entity);
         }
     }
 }
