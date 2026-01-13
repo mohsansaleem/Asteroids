@@ -27,8 +27,8 @@ namespace PG.Asteroids.Contexts.GamePlay
         {
             var asteroid = _asteroidFactory.Create(_levelIndex, _entityModel);
 
-            _simulationModel.AsteroidsCount.Value++;
-            Debug.Log($"[SpawnAsteroidsCommand] Spawned asteroid level {_levelIndex} at {_entityModel.Position}. Count: {_simulationModel.AsteroidsCount.Value} (was {_simulationModel.AsteroidsCount.Value - 1})");
+            _simulationModel.AsteroidsCount++;
+            Debug.Log($"[SpawnAsteroidsCommand] Spawned asteroid level {_levelIndex} at {_entityModel.Position}. Count: {_simulationModel.AsteroidsCount} (was {_simulationModel.AsteroidsCount - 1})");
 
             // Return this command object to its own pool!
             _commandPool.Despawn(this);

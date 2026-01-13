@@ -13,7 +13,7 @@ namespace PG.Asteroids.Contexts.GamePlay
         {
             await base.Enter();
 
-            GamePlayModel.IsDead.Value = true;
+            GamePlayModel.IsDead = true;
             View.ShowEndGame(true);
         }
     }

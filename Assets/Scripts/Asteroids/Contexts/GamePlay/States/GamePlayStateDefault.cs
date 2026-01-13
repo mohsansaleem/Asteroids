@@ -13,12 +13,12 @@ namespace PG.Asteroids.Contexts.GamePlay
         {
             await base.Enter();
 
-            GamePlayModel.Lives.Value = StaticDataModel.MetaData.Lives;
-            GamePlayModel.Scores.Value = 0;
-            GamePlayModel.IsDead.Value = false;
-            
+            GamePlayModel.Lives = StaticDataModel.MetaData.Lives;
+            GamePlayModel.Scores = 0;
+            GamePlayModel.IsDead = false;
+
             View.ShowEndGame(false);
-            
+
             SignalBus.Fire<SimulationStartedSignal>();
         }
     }

@@ -18,7 +18,7 @@ namespace PG.Asteroids.Contexts.GamePlay
             Initialize(model);
         }
 
-        public override void FixedTick(float deltaTime)
+        protected override void FixedTick(float deltaTime)
         {
             base.FixedTick(deltaTime);
             transform.RotateAround(transform.position, Vector3.up, RotationSpeed * deltaTime);

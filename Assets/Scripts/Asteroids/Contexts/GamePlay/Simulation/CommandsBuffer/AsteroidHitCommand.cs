@@ -30,14 +30,14 @@ namespace PG.Asteroids.Contexts.GamePlay
         {
             if (_asteroid != null)
             {
-                _gamePlayModel.Scores.Value += _staticDataModel.MetaData.AsteroidsData.AsteroidLevels[_asteroid.LevelIndex].HitPoints;
+                _gamePlayModel.Scores += _staticDataModel.MetaData.AsteroidsData.AsteroidLevels[_asteroid.LevelIndex].HitPoints;
 
                 // Despawn the asteroid
                 if (_asteroid.Pool != null)
                     _asteroid.Pool.Despawn(_asteroid);
 
-                _simulationModel.AsteroidsCount.Value--;
-                Debug.Log($"[AsteroidHitCommand] Asteroid destroyed. Count: {_simulationModel.AsteroidsCount.Value} (was {_simulationModel.AsteroidsCount.Value + 1})");
+                _simulationModel.AsteroidsCount--;
+                Debug.Log($"[AsteroidHitCommand] Asteroid destroyed. Count: {_simulationModel.AsteroidsCount} (was {_simulationModel.AsteroidsCount + 1})");
 
                 // BUG FIX: Spawn smaller asteroids when large/medium asteroids are destroyed
                 // Level 0 = Small, Level 1 = Medium, Level 2 = Large (reverse order!)

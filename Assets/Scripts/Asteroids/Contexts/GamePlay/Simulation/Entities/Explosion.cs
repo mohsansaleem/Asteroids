@@ -25,7 +25,7 @@ namespace PG.Asteroids.Contexts.GamePlay
         private float _startTime;
         private float _lifeTime;
 
-        public override void Tick(float deltaTime)
+        protected override void Tick(float deltaTime)
         {
             base.Tick(deltaTime);
             if (Time.realtimeSinceStartup - _startTime > _lifeTime)

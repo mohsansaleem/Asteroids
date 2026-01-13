@@ -1,15 +1,29 @@
 ﻿using System;
-using UniRx;
 
 namespace PG.Asteroids.Models.MediatorModels
 {
     public class StartupModel
     {
-        public ReactiveProperty<int> LoadingProgress;
+        private int _loadingProgress;
+
+        public event Action<int> OnLoadingProgressChanged;
+
+        public int LoadingProgress
+        {
+            get => _loadingProgress;
+            set
+            {
+                if (_loadingProgress != value)
+                {
+                    _loadingProgress = value;
+                    OnLoadingProgressChanged?.Invoke(_loadingProgress);
+                }
+            }
+        }
 
         public StartupModel()
         {
-            LoadingProgress = new ReactiveProperty<int>();
+            _loadingProgress = 0;
         }
     }
 }

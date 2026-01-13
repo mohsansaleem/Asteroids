@@ -40,7 +40,7 @@ namespace PG.Asteroids.Contexts.GamePlay
             }
         }
 
-        public override void Tick(float deltaTime)
+        protected override void Tick(float deltaTime)
         {
             base.Tick(deltaTime);
 

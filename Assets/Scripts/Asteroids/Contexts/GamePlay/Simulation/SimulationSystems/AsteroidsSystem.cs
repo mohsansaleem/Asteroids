@@ -22,7 +22,7 @@ namespace PG.Asteroids.Contexts.GamePlay
         
         public void Initialize()
         {
-            for (int i = _simulationModel.AsteroidsCount.Value; i < _staticDataModel.MetaData.AsteroidsData.StartingSpawns; i++)
+            for (int i = _simulationModel.AsteroidsCount; i < _staticDataModel.MetaData.AsteroidsData.StartingSpawns; i++)
             {
                 SpawnNext();
             }
@@ -49,7 +49,7 @@ namespace PG.Asteroids.Contexts.GamePlay
 
         public void Tick(float deltaTime)
         {
-            for (int i = _simulationModel.AsteroidsCount.Value; i < _staticDataModel.MetaData.AsteroidsData.MaxSpawns; i++)
+            for (int i = _simulationModel.AsteroidsCount; i < _staticDataModel.MetaData.AsteroidsData.MaxSpawns; i++)
             {
                 SpawnNext();
             }

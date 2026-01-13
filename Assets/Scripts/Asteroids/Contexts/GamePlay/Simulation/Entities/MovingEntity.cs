@@ -32,7 +32,7 @@ namespace PG.Asteroids.Contexts.GamePlay
             }
         }
 
-        public override void FixedTick(float deltaTime)
+        protected override void FixedTick(float deltaTime)
         {
             base.FixedTick(deltaTime);
             CheckForTeleport();

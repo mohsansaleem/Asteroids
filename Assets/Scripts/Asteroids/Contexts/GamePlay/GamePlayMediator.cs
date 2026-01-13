@@ -5,35 +5,38 @@ using PG.Asteroids.Models.MediatorModels;
 using PG.Asteroids.Models.RemoteDataModels;
 using PG.Asteroids.Views.GamePlay;
 using PG.Core.Contexts;
-using PG.Asteroids.Utilities;
-using UniRx;
 using UnityEngine;
 using Zenject;
 
 namespace PG.Asteroids.Contexts.GamePlay
 {
-    public partial class GamePlayMediator : Mediator
+    public class GamePlayMediator : Mediator
     {
         [Inject] private readonly GamePlayView _view;
 
         [Inject] private readonly GamePlayModel _gamePlayModel;
         [Inject] private readonly RemoteDataModel _remoteDataModel;
         [Inject] private readonly StaticDataModel _staticDataModel;
-        
-        [Inject] DiContainer _instantiator;
+
+        [Inject] IInstantiator _instantiator;
 
         public override void Initialize()
         {
             base.Initialize();
-            
+
             AddState<GamePlayStateDefault>();
             AddState<GamePlayStateEndGame>();
-            
-            _gamePlayModel.Scores.Subscribe(OnScoreChanged).AddTo(Disposables);
-            _gamePlayModel.Lives.Subscribe(OnLivesChanged).AddTo(Disposables);
-            
+
+            // Subscribe to events
+            _gamePlayModel.OnScoresChanged += OnScoreChanged;
+            _gamePlayModel.OnLivesChanged += OnLivesChanged;
+
             _view.ButtonRetry.onClick.AddListener(OnRetryClicked);
-            
+
+            // Initialize display with current values
+            OnScoreChanged(_gamePlayModel.Scores);
+            OnLivesChanged(_gamePlayModel.Lives);
+
             GoToState<GamePlayStateDefault>();
         }
 
@@ -55,12 +58,14 @@ namespace PG.Asteroids.Contexts.GamePlay
                 GoToState<GamePlayStateEndGame>().Forget();
             }
         }
-        
+
         public override void Dispose()
         {
-            base.Dispose();
-            
+            _gamePlayModel.OnScoresChanged -= OnScoreChanged;
+            _gamePlayModel.OnLivesChanged -= OnLivesChanged;
             _view.ButtonRetry.onClick.RemoveListener(OnRetryClicked);
+
+            base.Dispose();
         }
     }
 }

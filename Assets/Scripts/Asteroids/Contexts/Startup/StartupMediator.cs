@@ -4,7 +4,6 @@ using PG.Asteroids.Models.RemoteDataModels;
 using PG.Asteroids.Views.Startup;
 using PG.Core.Contexts;
 using PG.Core.Installers;
-using UniRx;
 using UnityEngine;
 using Zenject;
 
@@ -17,11 +16,6 @@ namespace PG.Asteroids.Contexts.Startup
         [Inject] private readonly StartupModel _startupModel;
         [Inject] private readonly RemoteDataModel _remoteDataModel;
 
-        public StartupMediator()
-        {
-            Disposables = new CompositeDisposable();
-        }
-
         public override void Initialize()
         {
             base.Initialize();
@@ -32,7 +26,12 @@ namespace PG.Asteroids.Contexts.Startup
             AddState<StartupStateLoadGamePlay>();
             AddState<StartupStateGamePlay>();
 
-            _startupModel.LoadingProgress.Subscribe(OnLoadingProgressChanged).AddTo(Disposables);
+            // Subscribe to event
+            _startupModel.OnLoadingProgressChanged += OnLoadingProgressChanged;
+
+            // Initialize with current value
+            OnLoadingProgressChanged(_startupModel.LoadingProgress);
+
             GoToState<StartupStateLoadStaticData>();
         }
 
@@ -44,6 +43,12 @@ namespace PG.Asteroids.Contexts.Startup
         private void OnLoadingStart()
         {
             _view.Show();
+        }
+
+        public override void Dispose()
+        {
+            _startupModel.OnLoadingProgressChanged -= OnLoadingProgressChanged;
+            base.Dispose();
         }
     }
 }

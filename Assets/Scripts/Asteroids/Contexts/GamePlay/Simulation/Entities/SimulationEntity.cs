@@ -20,12 +20,12 @@ namespace PG.Asteroids.Contexts.GamePlay
             FixedTick(Time.fixedDeltaTime);
         }
 
-        public virtual void FixedTick(float deltaTime)
+        protected virtual void FixedTick(float deltaTime)
         {
 
         }
 
-        public virtual void Tick(float deltaTime)
+        protected virtual void Tick(float deltaTime)
         {
 
         }

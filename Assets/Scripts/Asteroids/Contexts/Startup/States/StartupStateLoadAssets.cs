@@ -12,15 +12,14 @@ namespace PG.Asteroids.Contexts.Startup
     public class StartupStateLoadAssets : StartupState
     {
         [Inject] private IAssetsLoader _assetsLoader;
-        [Inject]
-        private MediatorStateMachine _mediatorStateMachine;
+        [Inject] private MediatorStateMachine _mediatorStateMachine;
         
         public override async UniTask Enter()
         {
             await base.Enter();
 
             await _assetsLoader.Initialize();
-            StartupModel.LoadingProgress.Value = 100;
+            StartupModel.LoadingProgress = 100;
             _mediatorStateMachine.Enter<StartupStateLoadGamePlay>();
         }
     }

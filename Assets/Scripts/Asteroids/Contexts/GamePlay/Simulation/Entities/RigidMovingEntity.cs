@@ -49,7 +49,7 @@ namespace PG.Asteroids.Contexts.GamePlay
             set { RigidBody.velocity = value; }
         }
 
-        public override void FixedTick(float deltaTime)
+        protected override void FixedTick(float deltaTime)
         {
             base.FixedTick(deltaTime);
             // Limit speed to a maximum

@@ -43,7 +43,7 @@ namespace PG.Asteroids.Contexts.GamePlay
 
         public void OnTriggerEnter(Collider other)
         {
-            if (_shieldDuration > 0 || _gamePlayModel.IsDead.Value)
+            if (_shieldDuration > 0 || _gamePlayModel.IsDead)
                 return;
 
             if (other.CompareTag("asteroid"))
@@ -58,7 +58,7 @@ namespace PG.Asteroids.Contexts.GamePlay
             }
         }
 
-        public override void Tick(float deltaTime)
+        protected override void Tick(float deltaTime)
         {
             base.Tick(deltaTime);
 

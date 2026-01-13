@@ -10,7 +10,6 @@ namespace PG.Core.SimpleState
 {
     public class SimpleStateComponent : MonoBehaviour
     {
-
         private bool _isFilled;
 
         [SerializeField] public List<SimpleStateModel> SimpleStateModels;

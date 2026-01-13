@@ -18,7 +18,7 @@ namespace PG.Asteroids.Contexts.GamePlay
             _speed = movementSpeed;
         }
 
-        public override void FixedTick(float deltaTime)
+        protected override void FixedTick(float deltaTime)
         {
             base.FixedTick(deltaTime);
             Move(deltaTime);

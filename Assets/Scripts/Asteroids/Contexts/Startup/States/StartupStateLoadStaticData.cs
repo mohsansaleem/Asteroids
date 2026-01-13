@@ -12,8 +12,7 @@ namespace PG.Asteroids.Contexts.Startup
 {
     public class StartupStateLoadStaticData : StartupState
     {
-        [Inject]
-        private MediatorStateMachine _mediatorStateMachine;
+        [Inject] private MediatorStateMachine _mediatorStateMachine;
 
         public override async UniTask Enter()
         {
@@ -29,7 +28,7 @@ namespace PG.Asteroids.Contexts.Startup
         {
             if (signal.CommandType == typeof(LoadStaticDataCommand))
             {
-                StartupModel.LoadingProgress.Value = 50;
+                StartupModel.LoadingProgress = 50;
                 _mediatorStateMachine.Enter<StartupStateLoadAssets>().Forget();
             }
         }

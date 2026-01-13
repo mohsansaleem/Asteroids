@@ -22,7 +22,7 @@ namespace PG.Asteroids.Contexts.Startup
         {
             if (signal.CommandType == typeof(LoadUserDataCommand))
             {
-                StartupModel.LoadingProgress.Value = 40;
+                StartupModel.LoadingProgress = 40;
             }
         }
     }

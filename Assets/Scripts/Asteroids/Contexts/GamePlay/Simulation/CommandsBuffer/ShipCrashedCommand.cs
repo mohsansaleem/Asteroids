@@ -28,8 +28,8 @@ namespace PG.Asteroids.Contexts.GamePlay
             ShipData shipData = _staticDataModel.MetaData.ShipData;
             _audioPlayer.Play(shipData.DeathSound, shipData.DeathVolume);
 
-            _gamePlayModel.Lives.Value--;
-            if (_gamePlayModel.Lives.Value > 0)
+            _gamePlayModel.Lives--;
+            if (_gamePlayModel.Lives > 0)
             {
                 _player.AddShield();
                 _player.ResetShip();

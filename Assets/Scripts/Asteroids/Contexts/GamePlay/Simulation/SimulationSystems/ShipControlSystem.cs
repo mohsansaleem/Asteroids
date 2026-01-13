@@ -30,7 +30,7 @@ namespace PG.Asteroids.Contexts.GamePlay
 
         public void Tick(float deltaTime)
         {
-            if (_gamePlayModel.IsDead.Value)
+            if (_gamePlayModel.IsDead)
             {
                 return;
             }
@@ -56,7 +56,7 @@ namespace PG.Asteroids.Contexts.GamePlay
 
         public void FixedTick(float fixedDeltaTime)
         {
-            if (_gamePlayModel.IsDead.Value)
+            if (_gamePlayModel.IsDead)
             {
                 return;
             }
