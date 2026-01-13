@@ -6,8 +6,7 @@ namespace PG.Core.Contexts.StateManagement
 {
     public abstract class MediatorState : IState
     {
-        [Inject]
-        protected SignalBus SignalBus;
+        [Inject] protected SignalBus SignalBus;
 
         public virtual void Tick()
         {
