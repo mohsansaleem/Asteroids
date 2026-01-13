@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 
-namespace PG.Asteroids.Misc
+namespace PG.Asteroids.Utilities
 {
     public static class Utils
     {

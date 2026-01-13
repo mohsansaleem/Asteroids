@@ -1,5 +1,5 @@
 ﻿
-namespace PG.Asteroids.Misc
+namespace PG.Asteroids.Utilities
 {
     public static class Constants
     {

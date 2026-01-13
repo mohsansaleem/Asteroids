@@ -2,7 +2,7 @@
 using Cysharp.Threading.Tasks;
 using PG.Asteroids.Models.MediatorModels;
 using PG.Asteroids.Views.Startup;
-using PG.Asteroids.Misc;
+using PG.Asteroids.Utilities;
 using UniRx;
 using Zenject;
 

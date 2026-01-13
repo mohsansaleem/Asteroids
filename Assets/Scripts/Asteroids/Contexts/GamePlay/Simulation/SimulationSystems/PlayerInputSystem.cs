@@ -1,10 +1,11 @@
 using System;
 using PG.Asteroids.Models;
 using PG.Asteroids.Models.MediatorModels;
+using PG.Asteroids.Models.SimulationModels;
 using UnityEngine;
 using Zenject;
 using Zenject.SpaceFighter;
-using PlayerInputState = PG.Asteroids.Models.MediatorModels.PlayerInputState;
+using PlayerInputState = PG.Asteroids.Models.SimulationModels.PlayerInputState;
 
 namespace PG.Asteroids.Contexts.GamePlay
 {

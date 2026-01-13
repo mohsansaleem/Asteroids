@@ -5,7 +5,7 @@ using PG.Asteroids.Models.MediatorModels;
 using PG.Asteroids.Models.RemoteDataModels;
 using PG.Asteroids.Views.GamePlay;
 using PG.Core.Contexts;
-using PG.Asteroids.Misc;
+using PG.Asteroids.Utilities;
 using UniRx;
 using UnityEngine;
 using Zenject;

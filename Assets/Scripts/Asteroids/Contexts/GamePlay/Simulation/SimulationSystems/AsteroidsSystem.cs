@@ -2,6 +2,7 @@ using PG.Asteroids.Models;
 using PG.Asteroids.Models.DataModels;
 using PG.Asteroids.Models.MediatorModels;
 using PG.Asteroids.Models.RemoteDataModels;
+using PG.Asteroids.Models.SimulationModels;
 using UnityEngine;
 using UnityEngine.Assertions;
 using Zenject;

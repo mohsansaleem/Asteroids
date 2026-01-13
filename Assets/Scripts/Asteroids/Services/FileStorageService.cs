@@ -1,22 +1,21 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using Asteroids.Data;
 using Cysharp.Threading.Tasks;
 using Newtonsoft.Json;
-using PG.Asteroids.Misc;
+using PG.Asteroids.Utilities;
 using PG.Asteroids.Models;
 using PG.Asteroids.Models.DataModels;
 using UnityEngine;
 using Zenject;
 
-namespace PG.Asteroids.Service
+namespace PG.Asteroids.Services
 {
-    public class ScriptableStorageService : IDataService
+    public class FileStorageService : IDataService
     {
         // Needed these to have the data to Authorize. 
         // For Server state it will be authorized on Server.
-        [Inject] private MetaData _metaData;
+        [Inject] private StaticDataModel _staticDataModel;
 
         private UserData _userData;
         private UserData UserData
@@ -37,7 +36,29 @@ namespace PG.Asteroids.Service
 
         public async UniTask<MetaData> GetMetaData()
         {
-            return _metaData;
+            try
+            {
+                // TODO: MS: Encrypt the Data. For now saving plain to read and change.
+                string path = Constants.MetaDataFile;
+                if (File.Exists(path))
+                {
+                    using (var reader = new StreamReader(path))
+                    {
+                        MetaData metaData = JsonConvert.DeserializeObject<MetaData>(reader.ReadToEnd());
+                        return (metaData);
+                    }
+                }
+                else
+                {
+                    Debug.LogError("MetaData File not found.");
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError("Something went wrong. Unable to get the MetaData.");
+            }
+
+            return null;
         }
 
         public async UniTask<UserData> SaveUserData(UserData userData)

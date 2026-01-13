@@ -1,9 +1,9 @@
 ﻿using System;
 using System.IO;
 using Newtonsoft.Json;
-using PG.Asteroids.Misc;
+using PG.Asteroids.Utilities;
 using PG.Asteroids.Models.RemoteDataModels;
-using PG.Asteroids.Service;
+using PG.Asteroids.Services;
 using PG.Core.Commands;
 using UnityEngine;
 using Zenject;

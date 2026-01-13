@@ -3,7 +3,7 @@ using Cysharp.Threading.Tasks;
 using PG.Asteroids.Models.DataModels;
 using UnityEngine;
 
-namespace PG.Asteroids.Service
+namespace PG.Asteroids.Services
 {
     public interface IDataService
     {
