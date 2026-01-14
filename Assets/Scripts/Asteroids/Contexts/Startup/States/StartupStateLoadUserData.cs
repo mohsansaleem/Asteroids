@@ -9,21 +9,20 @@ namespace PG.Asteroids.Contexts.Startup
 {
     public class StartupStateLoadUserData : StartupState
     {
+        [Inject] private LoadUserDataCommand _loadUserDataCommand;
+
         public override async UniTask Enter()
         {
             await base.Enter();
 
-            SignalBus.Subscribe<CommandExecutedSignal>(OnCommandExecuted);
-            LoadUserDataSignal signal = new LoadUserDataSignal();
-            SignalBus.Fire(signal);
+            ExecuteCommandAsync().Forget();
         }
-
-        private void OnCommandExecuted(CommandExecutedSignal signal)
+        
+        private async UniTaskVoid ExecuteCommandAsync()
         {
-            if (signal.CommandType == typeof(LoadUserDataCommand))
-            {
-                StartupModel.LoadingProgress = 40;
-            }
+            await _loadUserDataCommand.Execute(new LoadUserDataParams());
+
+            StartupModel.LoadingProgress = 40;
         }
     }
 }

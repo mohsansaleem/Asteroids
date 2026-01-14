@@ -16,5 +16,7 @@ namespace PG.Asteroids.Contexts.GamePlay
         protected readonly GamePlayModel GamePlayModel;
         [Inject]
         protected readonly GamePlayView View;
+        [Inject]
+        protected readonly Simulation Simulation;
     }
 }

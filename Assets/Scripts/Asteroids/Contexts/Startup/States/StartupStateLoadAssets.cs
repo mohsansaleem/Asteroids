@@ -18,9 +18,14 @@ namespace PG.Asteroids.Contexts.Startup
         {
             await base.Enter();
 
+            InitializeAssetLoader().Forget();
+        }
+        
+        private async UniTaskVoid InitializeAssetLoader()
+        {
             await _assetsLoader.Initialize();
             StartupModel.LoadingProgress = 100;
-            _mediatorStateMachine.Enter<StartupStateLoadGamePlay>();
+            await _mediatorStateMachine.Enter<StartupStateLoadGamePlay>();
         }
     }
 }

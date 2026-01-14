@@ -1,4 +1,5 @@
 ﻿using PG.Core.Contexts.StateManagement;
+using PG.Core.Commands;
 using PG.Asteroids.Commands;
 using PG.Asteroids.Models.MediatorModels;
 using PG.Asteroids.Views.Startup;
@@ -14,37 +15,19 @@ namespace PG.Asteroids.Contexts.Startup
 
         public override void InstallBindings()
         {
-            BindSignals();
-
             Container.Bind<StartupModel>().AsSingle();
 
             Container.BindInstance(StartupView);
-            
+
+            // Bind commands as Transient - created when needed, GC'd after use
+            Container.Bind<LoadStaticDataCommand>().AsTransient();
+            Container.Bind<LoadUserDataCommand>().AsTransient();
+            Container.Bind<SaveUserDataCommand>().AsTransient();
+            Container.Bind<CreateUserDataCommand>().AsTransient();
+            Container.Bind<LoadSceneCommand>().AsTransient();
+
             MediatorStateMachineInstaller.Install(Container);
             Container.BindInterfacesTo<StartupMediator>().AsSingle();
-        }
-
-        private void BindSignals()
-        {
-            Container.DeclareSignal<LoadStaticDataSignal>();
-            Container.BindSignal<LoadStaticDataSignal>()
-                .ToMethod<LoadStaticDataCommand>((x) => x.Execute)
-                .FromNew();
-
-            Container.DeclareSignal<LoadUserDataSignal>();
-            Container.BindSignal<LoadUserDataSignal>()
-                .ToMethod<LoadUserDataCommand>((x) => x.Execute)
-                .FromNew();
-
-            Container.DeclareSignal<SaveUserDataSignal>();
-            Container.BindSignal<SaveUserDataSignal>()
-                .ToMethod<SaveUserDataCommand>((x) => x.Execute)
-                .FromNew();
-
-            Container.DeclareSignal<CreateUserDataSignal>();
-            Container.BindSignal<CreateUserDataSignal>()
-                .ToMethod<CreateUserDataCommand>((x) => x.Execute)
-                .FromNew();
         }
     }
 }

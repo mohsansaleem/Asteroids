@@ -19,7 +19,7 @@ namespace PG.Asteroids.Contexts.GamePlay
 
             View.ShowEndGame(false);
 
-            SignalBus.Fire<SimulationStartedSignal>();
+            Simulation.ResetSystems();
         }
     }
 }

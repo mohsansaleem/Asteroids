@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using Cysharp.Threading.Tasks;
 using Newtonsoft.Json;
 using PG.Asteroids.Contexts.Startup;
 using PG.Asteroids.Utilities;
@@ -13,24 +14,23 @@ using Zenject;
 
 namespace PG.Asteroids.Commands
 {
-    public class LoadUserDataCommand : BaseCommand
+    public class LoadUserDataCommand : BaseCommand<LoadUserDataParams>
     {
         [Inject] private RemoteDataModel _remoteDataModel;
         [Inject] private readonly StartupModel _startupModel;
         [Inject] private readonly IDataService _dataService;
 
-        public async void Execute(LoadUserDataSignal signal)
+        public override async UniTask Execute(LoadUserDataParams parameters)
         {
             try
             {
                 UserData userData = await _dataService.GetUserData();
                 _remoteDataModel.SeedUserData(userData);
-                
-                PostExecute();
             }
             catch (Exception ex)
             {
                 Debug.LogError(ex.Message);
+                throw;
             }
         }
     }

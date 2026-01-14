@@ -7,20 +7,9 @@ namespace PG.Core.Installers
     {
         public override void InstallBindings()
         {
-            SignalBusInstaller.Install(Container);
+            Container.Bind<LoadSceneCommand>().AsTransient();
+            Container.Bind<UnloadSceneCommand>().AsTransient();
             
-            Container.DeclareSignal<CommandExecutedSignal>();
-            
-            Container.DeclareSignal<LoadSceneSignal>();
-            Container.BindSignal<LoadSceneSignal>()
-                .ToMethod<LoadSceneCommand>(x => x.Execute)
-                .FromNew();
-
-            Container.DeclareSignal<UnloadSceneSignal>();
-            Container.BindSignal<UnloadSceneSignal>()
-                .ToMethod<UnloadSceneCommand>(x => x.Execute)
-                .FromNew();
-
             Container.BindInterfacesTo<AsyncSceneLoader>().AsTransient();
             Container.BindInterfacesAndSelfTo<AssetsLoader>().AsSingle();
         }

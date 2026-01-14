@@ -13,24 +13,21 @@ namespace PG.Asteroids.Contexts.Startup
     public class StartupStateLoadStaticData : StartupState
     {
         [Inject] private MediatorStateMachine _mediatorStateMachine;
+        [Inject] private LoadStaticDataCommand _loadStaticDataCommand;
 
         public override async UniTask Enter()
         {
             await base.Enter();
 
-            SignalBus.Subscribe<CommandExecutedSignal>(OnCommandExecuted);
-            
-            LoadStaticDataSignal signal = new LoadStaticDataSignal();
-            SignalBus.Fire(signal);
+            ExecuteCommandAsync().Forget();
         }
 
-        private void OnCommandExecuted(CommandExecutedSignal signal)
+        private async UniTaskVoid ExecuteCommandAsync()
         {
-            if (signal.CommandType == typeof(LoadStaticDataCommand))
-            {
-                StartupModel.LoadingProgress = 50;
-                _mediatorStateMachine.Enter<StartupStateLoadAssets>().Forget();
-            }
+            await _loadStaticDataCommand.Execute(new LoadStaticDataParams());
+
+            StartupModel.LoadingProgress = 50;
+            await _mediatorStateMachine.Enter<StartupStateLoadAssets>();
         }
     }
 }

@@ -1,15 +1,9 @@
-﻿using PG.Core.Installers;
-using Zenject;
+﻿using Cysharp.Threading.Tasks;
 
 namespace PG.Core.Commands
 {
-    public abstract class BaseCommand
+    public abstract class BaseCommand<TParams> where TParams : class
     {
-        [Inject] protected SignalBus SignalBus;
-
-        protected virtual void PostExecute()
-        {
-            SignalBus.Fire(new CommandExecutedSignal(){ CommandType = GetType()} );
-        }
+        public abstract UniTask Execute(TParams parameters);
     }
 }

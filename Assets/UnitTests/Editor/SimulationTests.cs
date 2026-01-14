@@ -27,7 +27,7 @@ public class SimulationTests : ZenjectUnitTestFixture
         Container.Bind<SimulationModel>().AsSingle();
         Container.Bind<GamePlayModel>().AsSingle();
         Container.Bind<StaticDataModel>().AsSingle();
-        SignalBusInstaller.Install(Container);
+        Container.Bind<IAsteroidSpawnStrategy>().To<ContinuousSpawnStrategy>().AsSingle();
 
         // Setup camera and level helper for AsteroidsSystem
         GameObject obj = new GameObject();
@@ -76,7 +76,6 @@ public class SimulationTests : ZenjectUnitTestFixture
         Container.Bind<GamePlayModel>().AsSingle();
         Container.Bind<SimulationModel>().AsSingle();
         Container.Bind<StaticDataModel>().AsSingle();
-        SignalBusInstaller.Install(Container);
 
         GameObject obj = new GameObject();
         Camera camera = obj.AddComponent<Camera>();

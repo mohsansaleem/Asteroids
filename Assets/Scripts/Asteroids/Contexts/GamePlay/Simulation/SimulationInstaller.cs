@@ -33,6 +33,11 @@ namespace PG.Core.Contexts.StateManagement
         {
             Container.Bind<SimulationSystemFactory>().AsSingle();
 
+            // Bind asteroid spawn strategy (can be swapped for different gameplay)
+            Container.Bind<IAsteroidSpawnStrategy>().To<ContinuousSpawnStrategy>().AsSingle();
+            // Alternative strategies:
+            // Container.Bind<IAsteroidSpawnStrategy>().To<WaveBasedSpawnStrategy>().AsSingle();
+
             // Bind simulation systems
             Container.Bind<ISimulationSystem>().To<AsteroidsSystem>().AsSingle();
             Container.Bind<ISimulationSystem>().To<PlayerInputSystem>().AsSingle();

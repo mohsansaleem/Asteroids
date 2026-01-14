@@ -13,7 +13,6 @@ namespace PG.Asteroids.Contexts.GamePlay
 {
     public class ShipControlSystem : ISimulationSystem
     {
-        [Inject] private readonly SignalBus _signalBus;
         [Inject] private readonly StaticDataModel _staticDataModel;
         [Inject] private readonly GamePlayModel _gamePlayModel;
         [Inject] private readonly SimulationModel _simulationModel;

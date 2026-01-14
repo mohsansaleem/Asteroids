@@ -3,19 +3,14 @@ using UnityEngine.SceneManagement;
 
 namespace PG.Core.Installers
 {
-    public class LoadSceneSignal
+    public class LoadSceneParams
     {
         public string Scene;
         public LoadSceneMode LoadSceneMode;
     }
 
-    public class UnloadSceneSignal
+    public class UnloadSceneParams
     {
         public string Scene;
-    }
-
-    public class CommandExecutedSignal
-    {
-        public Type CommandType;
     }
 }

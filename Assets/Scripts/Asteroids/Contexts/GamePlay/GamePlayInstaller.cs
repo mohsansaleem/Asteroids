@@ -20,11 +20,10 @@ namespace PG.Asteroids.Contexts.GamePlay
         public override void InstallBindings()
         {
             Container.Bind<GamePlayModel>().AsSingle();
-            
+
             MediatorStateMachineInstaller.Install(Container);
-            
+
             // Simulation
-            Container.DeclareSignal<SimulationStartedSignal>();
             SimulationInstaller.Install(Container);
             
             Container.BindInstance(GamePlayView).AsSingle();

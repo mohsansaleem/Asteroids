@@ -13,19 +13,12 @@ using Zenject;
 
 namespace PG.Asteroids.Commands
 {
-    public class LoadStaticDataCommand : BaseCommand
+    public class LoadStaticDataCommand : BaseCommand<LoadStaticDataParams>
     {
         [Inject] private readonly IDataService _dataService;
         [Inject] private readonly StaticDataModel _staticDataModel;
 
-        public async void Execute(LoadStaticDataSignal signal)
-        {
-            await LoadMetaJson(Constants.MetaDataFile);
-            
-            PostExecute();
-        }
-        
-        private async UniTask LoadMetaJson(string metaFileName)
+        public override async UniTask Execute(LoadStaticDataParams parameters)
         {
             try
             {
@@ -35,6 +28,7 @@ namespace PG.Asteroids.Commands
             catch(Exception ex)
             {
                 Debug.LogError(ex.Message);
+                throw;
             }
         }
     }

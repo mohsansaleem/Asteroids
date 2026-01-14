@@ -9,9 +9,8 @@ namespace PG.Core.Contexts
     public abstract class Mediator : IInitializable, ITickable, IDisposable
     {
         [Inject] protected DiContainer Container;
-        [Inject] protected SignalBus SignalBus;
         [Inject] protected MediatorStateMachine MediatorStateMachine;
-        
+
         public virtual void Initialize()
 		{
         }

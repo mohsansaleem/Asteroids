@@ -9,23 +9,23 @@ namespace PG.Asteroids.Contexts.Startup
 {
     public class StartupStateLoadGamePlay : StartupState
     {
+        [Inject] private LoadSceneCommand _loadSceneCommand;
+
         public override async UniTask Enter()
         {
             await base.Enter();
-            
-            SignalBus.Subscribe<CommandExecutedSignal>(OnCommandExecuted);
-            SignalBus.Fire(new LoadSceneSignal()
+
+            LoadGameplayAsync().Forget();
+        }
+        
+        private async UniTaskVoid LoadGameplayAsync()
+        {
+            await _loadSceneCommand.Execute(new LoadSceneParams()
             {
                 Scene = ProjectScenes.Game
             });
-        }
 
-        private void OnCommandExecuted(CommandExecutedSignal signal)
-        {
-            if (signal.CommandType == typeof(LoadSceneCommand))
-            {
-                StartupModel.LoadingProgress = 100;
-            }
+            StartupModel.LoadingProgress = 100;
         }
     }
 }

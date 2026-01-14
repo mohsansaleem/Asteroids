@@ -1,16 +1,16 @@
-﻿using PG.Core.Installers;
+﻿using Cysharp.Threading.Tasks;
+using PG.Core.Installers;
 using Zenject;
 
 namespace PG.Core.Commands
 {
-    public class LoadSceneCommand : BaseCommand
+    public class LoadSceneCommand : BaseCommand<LoadSceneParams>
     {
         [Inject] private readonly ISceneLoader _sceneLoader;
 
-        public async void Execute(LoadSceneSignal loadParams)
+        public override async UniTask Execute(LoadSceneParams parameters)
         {
-            await _sceneLoader.LoadScene(loadParams.Scene, loadParams.LoadSceneMode);
-            PostExecute();
+            await _sceneLoader.LoadScene(parameters.Scene, parameters.LoadSceneMode);
         }
     }
 }
